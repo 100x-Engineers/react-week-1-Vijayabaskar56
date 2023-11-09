@@ -1,11 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button";
-import InputField from "../components/InputField";
-import Image from "../components/Image";
-import Singup from "../assets/signup-x.svg";
+import Button from "../../components/Button";
+import InputField from "../../components/InputField";
+import Image from "../../components/Image";
+import Singup from "../../assets/signup-x.svg";
+import { useProfile } from "../context/login";
 
 const LoginFlow = () => {
   const navigate = useNavigate();
+  const { profile } = useProfile();
+  const [profileDetails] = profile;
+  console.log(profile, "from logintwo");
   return (
     <>
       <div className="flex items-center justify-center w-screen h-screen">
@@ -34,19 +38,19 @@ const LoginFlow = () => {
                     name="name"
                     type="text"
                     label="name"
-                    value="Vijayabaskar"
+                    value={profileDetails.name}
                   />
                   <InputField
                     name="email"
                     type="email"
                     label="email"
-                    value="vj2k02@gmail.com"
+                    value={profileDetails.email}
                   />
                   <InputField
                     name="DOB"
                     type="num"
                     label="DOB"
-                    value="18/04/2002"
+                    value={profileDetails.dateOfBirth}
                   />
                   <div className="m-auto">
                     <Button

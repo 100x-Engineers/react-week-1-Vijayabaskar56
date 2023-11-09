@@ -1,11 +1,11 @@
 import { Field, Formik } from "formik";
 import { object, string, number } from "yup";
-import InputField from "../components/InputField";
+import InputField from "../../components/InputField";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/Button";
-import DropDOwn from "../components/DropDOwn";
-import Singup from "../assets/signup-x.svg";
-import Image from "../components/Image";
+import Button from "../../components/Button";
+import DropDOwn from "../../components/DropDOwn";
+import Singup from "../../assets/signup-x.svg";
+import Image from "../../components/Image";
 
 const LoginFlowOne = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const LoginFlowOne = () => {
   return (
     <>
       <div className="inline-flex md:bg-transparent md:flex md:justify-center">
-        <div className="h-screen  self-stretch px-3.5 py-2.5 bg-black md:rounded-2xl flex-col justify-start gap-3 inline-flex">
+        <div className="h-full  self-stretch px-3.5 py-2.5 bg-black md:rounded-2xl flex-col justify-start gap-3 inline-flex">
           <div className="flex flex-col items-start justify-center gap-3 ">
             <div className="inline-flex items-center self-stretch justify-start gap-5 px-4 py-3">
               <button onClick={() => navigate(-1)}>

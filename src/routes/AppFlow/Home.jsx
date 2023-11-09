@@ -24,7 +24,7 @@ const Home = () => {
           Copied to clipboard.
         </div>
         <Link to="/postTweet">
-          <button className="fixed right-8 transform -translate-x bottom-14 w-16 h-16 p-4 bg-twitterBluedefault rounded-full shadow justify-start items-start gap-2.5 inline-flex">
+          <button className="fixed right-8 transform -translate-x md:hidden bottom-14 w-16 h-16 p-4 bg-twitterBluedefault rounded-full shadow justify-start items-start gap-2.5 inline-flex">
             <img src="../../public/images/content-add.svg" alt="plus-icon" />
           </button>
         </Link>

@@ -1,11 +1,23 @@
-import Image from "../components/Image";
-import x100Logo from "../assets/100x-frame.svg";
-import Button from "../components/Button";
+import Image from "../../components/Image";
+import x100Logo from "../../assets/100x-frame.svg";
+import Button from "../../components/Button";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import Modal from "./Modal";
+import LoginFlowOne from "./LoginFlowOne";
+import Error from "../../components/Error";
+import { useFlow } from "../context/FlowNav";
+import { useProfile } from "../context/login";
 
 const WelcomePage = () => {
+  const [showModalError, setShowModalError] = useState(false);
+  const [showModelLogin, setShowModalLogin] = useState(false);
+  const { getProfileDetais } = useProfile();
+
   const location = useLocation();
   const navigate = useNavigate();
+
   return (
     <>
       <div className="flex-col md:flex-row flex h-screen w-screen md:gap-28 items-center justify-center bg-black font-['Inter']">
@@ -30,12 +42,18 @@ const WelcomePage = () => {
           <Button
             varient="base"
             buttonsize="md"
-            onClick={() =>
-              navigate("/loginOne", { state: { background: location } })
-            }
+            onClick={() => setShowModalLogin(true)}
           >
             Create Account
           </Button>
+          {showModelLogin &&
+            createPortal(
+              <Modal
+                close={() => setShowModalLogin(false)}
+                getProfileDetails={getProfileDetais}
+              />,
+              document.body
+            )}
           {/* <Outlet /> */}
           <section className="inline-flex items-center justify-center h-5 gap-1 w-80">
             <span className="h-px border grow shrink basis-0 border-neutral-700" />
@@ -48,15 +66,19 @@ const WelcomePage = () => {
             <p className="text-stone-50 md:text-xl font-medium font-['Inter']">
               Already have an account?
             </p>
-            <Link to="/loginOne" state={{ background: location }}>
-              <Button
-                varient="outline"
-                buttonsize="md"
-                onClick={() => navigate("/login")}
-              >
-                Sign up
-              </Button>
-            </Link>
+            {/* <Link to="/e" state={{ background: location }}> */}
+            <Button
+              varient="outline"
+              buttonsize="md"
+              onClick={() => setShowModalError(true)}
+            >
+              Sign up
+            </Button>
+            {showModalError &&
+              createPortal(
+                <Error onClose={() => setShowModalError(false)} />,
+                document.body
+              )}
           </section>
         </section>
       </div>

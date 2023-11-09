@@ -7,12 +7,11 @@ import {
   useLocation,
 } from "react-router-dom";
 import "./index.css";
-import WelcomePage from "./routes/WelcomePage.jsx";
-import LoginFlowOne from "./routes/LoginFlowOne.jsx";
-import LoginFlowTwo from "./routes/LoginFlowTwo.jsx";
-import LoginFlowThree from "./routes/LoginFlowThree.jsx";
-import LoginFlow from "./routes/LoginFlow.jsx";
-import LoginFlowFour from "./routes/LoginFlowFour";
+import WelcomePage from "./routes/loginFlow/WelcomePage.jsx";
+import LoginFlowOne from "./routes/loginFlow/LoginFlowOne.jsx";
+import LoginFlowTwo from "./routes/loginFlow/LoginFlowTwo.jsx";
+import LoginFlowThree from "./routes/loginFlow/LoginFlowThree.jsx";
+import LoginFlowFour from "./routes/loginFlow/LoginFlowFour";
 import Home from "./routes/AppFlow/Home";
 import Nav from "./routes/AppFlow/Nav";
 import Profile from "./routes/AppFlow/Profile";
@@ -29,18 +28,33 @@ import {
   TweetProvider,
   useTweet,
 } from "./routes/context/index.js";
+import { LoginProvider } from "./routes/context/login.js";
+import ErrorPage from "./routes/Error404.jsx";
+import { createPortal } from "react-dom";
+import Error from "./components/Error.jsx";
 
 function App() {
-  const background = location.state && location.state.background;
   const [tweets, setTweets] = useState([]);
-  // const { tweet } = useTweet();
+  const [profileDetails, setProfileDetails] = useState([]);
+
+  const getProfileDetais = ([profileDetails]) => {
+    setProfileDetails([
+      {
+        name: profileDetails.name,
+        email: profileDetails.email,
+        dateOfBirth: profileDetails.dateOfBirth,
+      },
+    ]);
+    console.log(profileDetails.dateOfBirth);
+  };
+  const profile = profileDetails;
 
   // post Tweet
   const postTweet = (tweets) => {
     setTweets((prev) => [
       {
-        id: "baskar",
-        userId: "baskar",
+        id: "Vijayabaskar",
+        userId: "vjbass",
         time: new Date().getHours(),
         ...tweets,
       },
@@ -63,15 +77,23 @@ function App() {
 
   useEffect(() => {
     const tweet = JSON.parse(localStorage.getItem("Tweets"));
+    const profile = JSON.parse(localStorage.getItem("Profile"));
+    const Flow = JSON.parse(localStorage.getItem("Flow"));
     if (tweet && tweet.length > 0) {
       console.log("hii");
       setTweets(tweet);
     }
+    if (profile && profile.length > 0) {
+      console.log("hii from profile");
+      setProfileDetails(profile);
+    }
+    console.log(Flow, "from local storage");
   }, []);
 
   useEffect(() => {
     localStorage.setItem("Tweets", JSON.stringify(tweets));
-  }, [tweets]);
+    localStorage.setItem("Profile", JSON.stringify(profileDetails));
+  }, [tweets, profileDetails]);
 
   const [themeMode, setThemeMode] = useState("dark");
   const darkTheme = () => {
@@ -93,24 +115,57 @@ function App() {
         <Route
           path="/"
           element={<WelcomePage />}
-          location={location || background}
+          errorElement={createPortal(<Error />, document.body)}
         ></Route>
-        <Route path="loginOne" element={<LoginFlowOne />} />
-        {background && <Route path="loginOne" element={<LoginFlowOne />} />}
-        <Route path="loginTwo" element={<LoginFlowTwo />} />
-        <Route path="loginThree" element={<LoginFlowThree />} />
-        <Route path="loginFour" element={<LoginFlowFour />} />
         <Route
-          path="loginflow"
-          element={<LoginFlow heading="hello" subHeading="hiii" />}
+          path="loginOne"
+          element={<LoginFlowOne />}
+          errorElement={<ErrorPage />}
         />
-        <Route path="home" element={<Nav />}>
-          <Route path="foryou" element={<Home />} />
-          <Route path="following" element={<Home />} />
+        {/* {background && <Route path="loginOne" element={<LoginFlowOne />} />} */}
+        <Route
+          path="loginTwo"
+          element={<LoginFlowTwo />}
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="loginThree"
+          element={<LoginFlowThree />}
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="loginFour"
+          element={<LoginFlowFour />}
+          errorElement={<ErrorPage />}
+        />
+
+        <Route path="home" element={<Nav />} errorElement={<ErrorPage />}>
+          <Route
+            path="foryou"
+            element={<Home />}
+            errorElement={<ErrorPage />}
+          />
+          <Route
+            path="following"
+            element={<Home />}
+            errorElement={<ErrorPage />}
+          />
         </Route>
-        <Route path="profile" element={<Profile />}></Route>
-        <Route path="editprofile" element={<EditProfile />} />
-        <Route path="postTweet" element={<PostTweet />} />
+        <Route
+          path="profile"
+          element={<Profile />}
+          errorElement={<ErrorPage />}
+        ></Route>
+        <Route
+          path="editprofile"
+          element={<EditProfile />}
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="postTweet"
+          element={<PostTweet />}
+          errorElement={<ErrorPage />}
+        />
       </>
     )
   );
@@ -123,19 +178,19 @@ function App() {
             <TweetProvider
               value={{ tweets, postTweet, updateTweet, deleteTweet }}
             >
-              <RouterProvider router={route} />
+              <LoginProvider value={{ profile, getProfileDetais }}>
+                <RouterProvider router={route} />
+              </LoginProvider>
             </TweetProvider>
           </ThemeProvider>
         </AuthProvider>
       </>
     );
   }
-
   return (
     <>
       <TwitterApp />
     </>
   );
 }
-
 export default App;

@@ -10,13 +10,15 @@ import userAvatar from "../../assets/user-avatar.svg";
 import ReactIcons from "./componenets/ReactIcons";
 import { useState } from "react";
 import TweetHeader from "./componenets/TweetHeader";
+import Avatar from "./componenets/Avatar";
+
 const Tweet = ({ ...tweets }) => {
   console.log(tweets);
   return (
     <>
       <main>
         <section className="inline-flex items-start justify-start w-full h-full gap-4 px-4 py-2 border-b border-neutral700">
-          <img className="relative w-12 h-12 rounded-full" src={userAvatar} />
+          <Avatar Avatar={userAvatar} />
           <div className="inline-flex flex-col items-start justify-start gap-1 grow shrink basis-0">
             <TweetHeader
               name={tweets.tweet.userId}
@@ -25,7 +27,11 @@ const Tweet = ({ ...tweets }) => {
               tweet={tweets.tweet.tweetText}
             />
             <div className="inline-flex items-center self-stretch justify-between">
-              <ReactIcons activImg={CommentIcon} value="11" />
+              <ReactIcons
+                activImg={CommentIcon}
+                inactiveImg={CommentIcon}
+                value="11"
+              />
               <ReactIcons
                 activImg={RetweetIcon}
                 inactiveImg={retweetActiveIcon}
@@ -37,7 +43,12 @@ const Tweet = ({ ...tweets }) => {
                 inactiveImg={heartActiveIcon}
                 value="11"
               />
-              <ReactIcons activImg={reachIcon} alt="reach-icon" value="11" />
+              <ReactIcons
+                activImg={reachIcon}
+                inactiveImg={reachIcon}
+                alt="reach-icon"
+                value="11"
+              />
               <ReactIcons activImg={shareIcon} inactiveImg={shareActiveIcon} />
             </div>
           </div>

@@ -82,7 +82,7 @@ const PostTweet = () => {
                 }}
                 value={tweets}
                 onChange={handleChange}
-                className={`bg-black resize-y focus:outline-none caret-twitterBlue placeholder:text-neutral600 ${
+                className={`bg-black resize-y focus:outline-none caret-twitterBlue w-full placeholder:text-neutral600 ${
                   charCount < 280 ? "text-neutral-50" : "text-red-700"
                 }`}
                 placeholder="What's happening?!"
