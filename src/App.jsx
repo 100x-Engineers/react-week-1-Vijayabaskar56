@@ -9,7 +9,7 @@ import {
 import "./index.css";
 import WelcomePage from "./routes/loginFlow/WelcomePage.jsx";
 
-import Home from "./routes/AppFlow/Home";
+import Feed from "./routes/AppFlow/Feed.jsx";
 import Nav from "./routes/AppFlow/Nav";
 import Profile from "./routes/AppFlow/Profile";
 import EditProfile from "./routes/AppFlow/EditProfile";
@@ -23,17 +23,32 @@ import {
   AuthProvider,
   AuthContext,
   TweetProvider,
-  useTweet,
 } from "./routes/context/index.js";
 import { LoginProvider } from "./routes/context/login.js";
 import ErrorPage from "./routes/Error404.jsx";
 import { createPortal } from "react-dom";
 import Error from "./components/Error.jsx";
+import Home from "./routes/AppFlow/Home.jsx";
 
 function App() {
   const [tweets, setTweets] = useState([]);
   const [profileDetails, setProfileDetails] = useState([]);
+  const [login, isLogin] = useState(null);
 
+  // Auth Context
+  const setToken = (token) => {
+    isLogin(token);
+  };
+
+  const ProtectedRoutes = ({ children }) => {
+    if (login) {
+      return children;
+    } else {
+      return <WelcomePage />;
+    }
+  };
+
+  // Profile Context
   const getProfileDetais = ([profileDetails]) => {
     setProfileDetails([
       {
@@ -135,15 +150,15 @@ function App() {
           errorElement={<ErrorPage />}
         /> */}
 
-        <Route path="home" element={<Nav />} errorElement={<ErrorPage />}>
+        <Route path="home" element={<Home />} errorElement={<ErrorPage />}>
           <Route
             path="foryou"
-            element={<Home />}
+            element={<Feed />}
             errorElement={<ErrorPage />}
           />
           <Route
             path="following"
-            element={<Home />}
+            element={<Feed />}
             errorElement={<ErrorPage />}
           />
         </Route>
@@ -169,7 +184,7 @@ function App() {
   function TwitterApp() {
     return (
       <>
-        <AuthProvider>
+        <AuthProvider value={{ login, setToken }}>
           <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
             <TweetProvider
               value={{ tweets, postTweet, updateTweet, deleteTweet }}

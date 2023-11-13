@@ -10,8 +10,8 @@ import { useFlow } from "../context/FlowNav";
 import { useProfile } from "../context/login";
 
 const WelcomePage = () => {
-  const [showModalError, setShowModalError] = useState(false);
-  const [showModelLogin, setShowModalLogin] = useState(false);
+  const [showModalLogin, setShowModalLogin] = useState(false);
+  const [showModelSignin, setShowModalSignin] = useState(false);
   const { getProfileDetais } = useProfile();
 
   const location = useLocation();
@@ -41,14 +41,15 @@ const WelcomePage = () => {
           <Button
             varient="base"
             buttonsize="md"
-            onClick={() => setShowModalLogin(true)}
+            onClick={() => setShowModalSignin(true)}
           >
             Create Account
           </Button>
-          {showModelLogin &&
+          {showModelSignin &&
             createPortal(
               <Modal
-                close={() => setShowModalLogin(false)}
+                close={() => setShowModalSignin(false)}
+                step={1}
                 getProfileDetails={getProfileDetais}
               />,
               document.body
@@ -69,13 +70,13 @@ const WelcomePage = () => {
             <Button
               varient="outline"
               buttonsize="md"
-              onClick={() => setShowModalError(true)}
+              onClick={() => setShowModalLogin(true)}
             >
               Sign up
             </Button>
-            {showModalError &&
+            {showModalLogin &&
               createPortal(
-                <Error onClose={() => setShowModalError(false)} />,
+                <Modal close={() => setShowModalLogin(false)} step={0} />,
                 document.body
               )}
           </section>

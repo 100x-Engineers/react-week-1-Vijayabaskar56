@@ -5,6 +5,7 @@ const Button = ({
   children,
   varient,
   buttonsize,
+  customSize,
   isdisable = false,
   ...rest
 }) => {
@@ -56,8 +57,14 @@ const Button = ({
   const disableState = isdisable ? "disabled:opacity-50" : "";
 
   const Class = `${varients[varient]} ${
-    buttonsize ? btnsize[buttonsize] : btnsize[handleResponsive(windowWidth)]
-  } ${disableState}`;
+    customSize
+      ? `${customSize}`
+      : `${
+          buttonsize
+            ? btnsize[buttonsize]
+            : btnsize[handleResponsive(windowWidth)]
+        }`
+  } ${disableState}${customSize}`;
   return (
     <>
       <button className={Class} {...rest}>
