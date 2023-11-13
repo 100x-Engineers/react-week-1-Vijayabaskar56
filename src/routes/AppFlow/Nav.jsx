@@ -32,7 +32,7 @@ const Nav = () => {
   return (
     <>
       <div className="">
-        <header className="flex justify-start px-4 py-3 border-b-2 border-solid bg-neutral1000 text-neutral50 border-b-neutral700">
+        <header className="flex justify-start px-4 py-3 border-b-2 border-solid md:hidden bg-neutral1000 text-neutral50 border-b-neutral700">
           <Link to="/profile">
             <img src="../../public/images/user-avatar.svg" alt="user-icon" />
           </Link>
@@ -63,7 +63,7 @@ const Nav = () => {
           </nav>
         </div>
         <Outlet />
-        <section className="flex-col">
+        <section className="flex-col md:hidden">
           <div className="fixed bottom-0 flex items-center justify-center w-full h-6 gap-10 px-6 py-5 bg-neutral1000">
             <Link
               to="/profile"

@@ -1,4 +1,3 @@
-import LoginFlowOne from "./LoginFlowOne";
 import Singup from "../../assets/signup-x.svg";
 import Image from "../../components/Image";
 import Button from "../../components/Button";

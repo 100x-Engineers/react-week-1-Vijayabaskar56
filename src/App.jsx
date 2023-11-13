@@ -8,10 +8,7 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import WelcomePage from "./routes/loginFlow/WelcomePage.jsx";
-import LoginFlowOne from "./routes/loginFlow/LoginFlowOne.jsx";
-import LoginFlowTwo from "./routes/loginFlow/LoginFlowTwo.jsx";
-import LoginFlowThree from "./routes/loginFlow/LoginFlowThree.jsx";
-import LoginFlowFour from "./routes/loginFlow/LoginFlowFour";
+
 import Home from "./routes/AppFlow/Home";
 import Nav from "./routes/AppFlow/Nav";
 import Profile from "./routes/AppFlow/Profile";
@@ -117,12 +114,11 @@ function App() {
           element={<WelcomePage />}
           errorElement={createPortal(<Error />, document.body)}
         ></Route>
-        <Route
+        {/* <Route
           path="loginOne"
           element={<LoginFlowOne />}
           errorElement={<ErrorPage />}
         />
-        {/* {background && <Route path="loginOne" element={<LoginFlowOne />} />} */}
         <Route
           path="loginTwo"
           element={<LoginFlowTwo />}
@@ -137,7 +133,7 @@ function App() {
           path="loginFour"
           element={<LoginFlowFour />}
           errorElement={<ErrorPage />}
-        />
+        /> */}
 
         <Route path="home" element={<Nav />} errorElement={<ErrorPage />}>
           <Route
