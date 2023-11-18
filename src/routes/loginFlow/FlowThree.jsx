@@ -1,15 +1,9 @@
 import { Formik } from "formik";
-import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
-import { useFlow } from "../context/FlowNav";
+import PropTypes from "prop-types";
 
 const FlowThree = ({ nextStep }) => {
-  const navigate = useNavigate();
-  // const { flow, nextStep } = useFlow();
-  // const next = nextStep;
-  // console.log(flow, "from two", next);
-  // let [currentState] = flow;
   return (
     <>
       <div className="flex-col items-center justify-center">
@@ -53,7 +47,7 @@ const FlowThree = ({ nextStep }) => {
                   href="#"
                   className="text-sm font-normal text-right text-sky-500 font-inter"
                 >
-                  Didn't & receive a code?
+                  Didn&apos;t & receive a code?
                 </a>
               </div>
 
@@ -83,3 +77,7 @@ const FlowThree = ({ nextStep }) => {
 };
 
 export default FlowThree;
+
+FlowThree.propTypes = {
+  nextStep: PropTypes.func.isRequired,
+};

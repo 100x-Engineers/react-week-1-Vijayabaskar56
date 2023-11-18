@@ -229,48 +229,5 @@ const EditProfile = () => {
 
 export default EditProfile;
 
-// import React, { useState, useEffect } from 'react';
 
-// const EditProfile = () => {
-//   const [selectimage, setSelectImage] = useState(null);
-//   // const [imageURLs, setImageURLs] = useState([]);
-//   const navigate = useNavigate();
 
-//   useEffect(() => {
-//     const loadImageAsBlob = async (imagePath) => {
-//       try {
-//         const response = await fetch(imagePath);
-//         if (response.ok) {
-//           const blob = await response.blob();
-//           setSelectImage(URL.createObjectURL(blob));
-//         } else {
-//           throw new Error("Failed to load image.");
-//         }
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     };
-
-//     // Run the effect when selectimage changes
-//     if (selectimage) {
-//       loadImageAsBlob(selectimage);
-//     }
-//   }, [selectimage]); // Dependency array with selectimage
-
-//   // ...
-
-//   function onImageChange(e) {
-//     const selectedFile = e.target.files[0];
-//     if (selectedFile) {
-//       setSelectImage(URL.createObjectURL(selectedFile));
-//     }
-//   }
-
-//   // ...
-
-//   return (
-//     // Your component JSX
-//   );
-// };
-
-// export default EditProfile;

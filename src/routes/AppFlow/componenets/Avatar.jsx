@@ -1,3 +1,5 @@
+import { PropTypes } from "prop-types";
+
 const Avatar = ({ Avatar }) => {
   return (
     <>
@@ -7,3 +9,7 @@ const Avatar = ({ Avatar }) => {
 };
 
 export default Avatar;
+
+Avatar.propTypes = {
+  Avatar: PropTypes.string,
+};

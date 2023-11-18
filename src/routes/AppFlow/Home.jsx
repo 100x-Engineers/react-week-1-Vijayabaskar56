@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Link, useMatch, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useMatch } from "react-router-dom";
 import Image from "../../components/Image";
 import Logo100X from "../../assets/100x-frame.svg";
 import Nav from "./Nav";
 import Profile from "../../assets/group-default.svg";
 import HomeIcon from "../../assets/home-default.svg";
-import Button from "../../components/Button";
-import Search from "./componenets/Search";
-import Trending from "./componenets/Trending";
-import plus from "../../assets/content-add.svg";
+
 import TrandingPage from "./TrendingPage";
 import Header from "./componenets/Header";
 

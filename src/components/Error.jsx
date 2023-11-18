@@ -1,6 +1,7 @@
 import { useRouteError } from "react-router-dom";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Error = ({ onClose }) => {
   const navigator = useNavigate();
@@ -23,6 +24,9 @@ const Error = ({ onClose }) => {
               </p>
             </div>
           )}
+
+          {/* Routing Error Handinling */}
+
           {error && (
             <>
               <div className="flex flex-col items-start self-stretch justify-start h-20 gap-3">
@@ -49,3 +53,7 @@ const Error = ({ onClose }) => {
 };
 
 export default Error;
+
+Error.propTypes = {
+  onClose: PropTypes.func,
+};

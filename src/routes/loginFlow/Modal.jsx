@@ -5,12 +5,11 @@ import FlowOne from "./FlowOne";
 import FlowThree from "./FlowThree";
 import FlowTwo from "./FlowTwo";
 import FlowFour from "./FlowFour";
-import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import { useFlow } from "../context/FlowNav";
 import FlowLogin from "./FlowLogin";
+import PropTypes from "prop-types";
 
-const LoginFlow = ({ Children, close, getProfileDetails, step }) => {
+const LoginFlow = ({ close, getProfileDetails, step }) => {
   const [currentStep, setCurrentStep] = useState(step);
 
   const nextStep = () => {
@@ -81,3 +80,9 @@ const LoginFlow = ({ Children, close, getProfileDetails, step }) => {
 };
 
 export default LoginFlow;
+
+LoginFlow.propTypes = {
+  close: PropTypes.func.isRequired,
+  getProfileDetails: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired,
+};

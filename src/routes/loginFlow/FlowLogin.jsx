@@ -4,11 +4,9 @@ import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import { AuthService } from "../../services/AuthService";
 import { useAuth } from "../context/index.js";
-import { useNavigate } from "react-router-dom";
 
 function FlowLogin() {
   //   const { getProfileDetais } = useProfile();
-  const navigate = useNavigate();
   const { setToken, token } = useAuth();
   const validation = object({
     email: string("Invalid Entry")
@@ -34,7 +32,6 @@ function FlowLogin() {
                 // Assuming AuthService returns an object with a data property
                 if (response && response.message && response.token) {
                   setToken(response.token);
-                  navigate("/home");
                 } else {
                   throw new Error("Authentication failed");
                 }

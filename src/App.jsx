@@ -4,29 +4,20 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
-  useLocation,
 } from "react-router-dom";
 import "./index.css";
 import WelcomePage from "./routes/loginFlow/WelcomePage.jsx";
 
 import Feed from "./routes/AppFlow/Feed.jsx";
-import Nav from "./routes/AppFlow/Nav";
 import Profile from "./routes/AppFlow/Profile";
 import EditProfile from "./routes/AppFlow/EditProfile";
 import PostTweet from "./routes/AppFlow/PostTweet";
 import { useEffect, useState } from "react";
-// import { AuthContext } from "./routes/context/AuthContext";
-// import AuthProvider from "./routes/context/AuthProvider";
-// import { ThemeProvider } from "./routes/context/Theme";
-import {
-  ThemeProvider,
-  AuthProvider,
-  AuthContext,
-  TweetProvider,
-  useAuth,
-} from "./routes/context/index.js";
+import PropTypes from "prop-types";
+
+import { AuthProvider, TweetProvider } from "./routes/context/index.js";
 import { LoginProvider } from "./routes/context/login.js";
-import ErrorPage from "./routes/Error404.jsx";
+import ErrorPage from "./routes/ErrorPage.jsx";
 import { createPortal } from "react-dom";
 import Error from "./components/Error.jsx";
 import Home from "./routes/AppFlow/Home.jsx";
@@ -35,19 +26,10 @@ function App() {
   const [tweets, setTweets] = useState([]);
   const [profileDetails, setProfileDetails] = useState([]);
   const [login, isLogin] = useState(null);
-  // const { token } = useAuth();
   // Auth Context
   const setToken = (token) => {
     isLogin(token);
     console.log(token, "from setToken");
-  };
-
-  const ProtectedRoutes = ({ children }) => {
-    if (login) {
-      return children;
-    } else {
-      return <WelcomePage />;
-    }
   };
 
   // Profile Context
@@ -76,18 +58,8 @@ function App() {
     ]);
     console.log(tweets);
   };
-  // updateTweets
-  const updateTweet = (id, tweetText) => {
-    setTweets((prev) => [
-      prev.map((prevTweet) => {
-        prevTweet.id === tweetText.id ? tweets : prevTweet;
-      }),
-    ]);
-  };
-  // deleteTweets
-  const deleteTweet = (id) => {
-    setTweets((prev) => prev.filter((tweetText) => tweetText.id !== id));
-  };
+
+  // seting the context in the localstoreage and getting the context from the localstorage (later it will be replaced by the backend)
 
   useEffect(() => {
     const tweet = JSON.parse(localStorage.getItem("Tweets"));
@@ -113,19 +85,13 @@ function App() {
     localStorage.setItem("Flow", JSON.stringify(login));
   }, [tweets, profileDetails, login]);
 
-  const [themeMode, setThemeMode] = useState("dark");
-  const darkTheme = () => {
-    setThemeMode("dark");
+  const ProtectedRoutes = ({ children }) => {
+    if (login) {
+      return children;
+    } else {
+      return <WelcomePage />;
+    }
   };
-
-  const lightTheme = () => {
-    setThemeMode("light");
-  };
-
-  useEffect(() => {
-    document.querySelector("html").classList.remove("dark", "lightTheme");
-    document.querySelector("html").classList.add(themeMode);
-  }, [themeMode]);
 
   const route = createBrowserRouter(
     createRoutesFromElements(
@@ -138,9 +104,7 @@ function App() {
             </ProtectedRoutes>
           }
           errorElement={createPortal(<Error />, document.body)}
-        ></Route>
-
-        <Route path="home" element={<Home />} errorElement={<ErrorPage />}>
+        >
           <Route
             path="foryou"
             element={<Feed />}
@@ -152,6 +116,9 @@ function App() {
             errorElement={<ErrorPage />}
           />
         </Route>
+
+        {/* <Route path="home" element={<Home />} errorElement={<ErrorPage />}>
+          </Route> */}
         <Route
           path="profile"
           element={<Profile />}
@@ -175,15 +142,11 @@ function App() {
     return (
       <>
         <AuthProvider value={{ login, setToken }}>
-          <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-            <TweetProvider
-              value={{ tweets, postTweet, updateTweet, deleteTweet }}
-            >
-              <LoginProvider value={{ profile, getProfileDetais }}>
-                <RouterProvider router={route} />
-              </LoginProvider>
-            </TweetProvider>
-          </ThemeProvider>
+          <TweetProvider value={{ tweets, postTweet }}>
+            <LoginProvider value={{ profile, getProfileDetais }}>
+              <RouterProvider router={route} />
+            </LoginProvider>
+          </TweetProvider>
         </AuthProvider>
       </>
     );
@@ -195,3 +158,10 @@ function App() {
   );
 }
 export default App;
+
+// ProtectedRoutes.propTypes = {
+//   children: PropTypes.any,
+// };
+// TwitterApp.propTypes = {
+//   children: PropTypes.any,
+// };

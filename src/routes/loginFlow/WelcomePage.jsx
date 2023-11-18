@@ -1,21 +1,17 @@
 import Image from "../../components/Image";
 import x100Logo from "../../assets/100x-frame.svg";
 import Button from "../../components/Button";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "./Modal";
-import Error from "../../components/Error";
-import { useFlow } from "../context/FlowNav";
 import { useProfile } from "../context/login";
+import PropTypes from "prop-types";
 
 const WelcomePage = () => {
   const [showModalLogin, setShowModalLogin] = useState(false);
   const [showModelSignin, setShowModalSignin] = useState(false);
   const { getProfileDetais } = useProfile();
-
-  const location = useLocation();
-  const navigate = useNavigate();
 
   return (
     <>
@@ -88,3 +84,9 @@ const WelcomePage = () => {
 };
 
 export default WelcomePage;
+
+WelcomePage.propTypes = {
+  close: PropTypes.func.isRequired,
+  getProfileDetails: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired,
+};

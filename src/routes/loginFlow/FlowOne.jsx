@@ -1,14 +1,11 @@
 import { Formik } from "formik";
-import { object, string, number, date } from "yup";
-import React, { useState, useEffect } from "react";
+import { object, string, number } from "yup";
 import InputField from "../../components/InputField";
 import DropDOwn from "../../components/DropDOwn";
 import Button from "../../components/Button";
-import { useProfile } from "../context/login";
+import PropTypes from "prop-types";
 
 function FlowOne({ nextStep, getProfileDetais }) {
-  // const { getProfileDetais } = useProfile();
-
   const validation = object({
     name: string("Invalid Entry")
       .required("Name Required!")
@@ -44,9 +41,9 @@ function FlowOne({ nextStep, getProfileDetais }) {
                 dateOfBirth: dof,
               },
             ];
-            // getProfileDetais(profile);
+            getProfileDetais(profile);
             console.log(profile);
-            // resetForm();
+            resetForm();
             setSubmitting(false);
             nextStep();
           }, 3000);
@@ -145,3 +142,8 @@ function FlowOne({ nextStep, getProfileDetais }) {
 }
 
 export default FlowOne;
+
+FlowOne.propTypes = {
+  nextStep: PropTypes.func,
+  getProfileDetais: PropTypes.func,
+};

@@ -1,0 +1,76 @@
+  const [themeMode, setThemeMode] = useState("dark");
+  const darkTheme = () => {
+    setThemeMode("dark");
+  };
+
+  const lightTheme = () => {
+    setThemeMode("light");
+  };
+
+  useEffect(() => {
+    document.querySelector("html").classList.remove("dark", "lightTheme");
+    document.querySelector("html").classList.add(themeMode);
+  }, [themeMode]);
+
+
+
+    // updateTweets
+  const updateTweet = (id, tweetText) => {
+    setTweets((prev) => [
+      prev.map((prevTweet) => {
+        prevTweet.id === tweetText.id ? tweets : prevTweet;
+      }),
+    ]);
+  };
+  // deleteTweets
+  const deleteTweet = (id) => {
+    setTweets((prev) => prev.filter((tweetText) => tweetText.id !== id));
+  };
+
+
+
+// edit progile
+
+const EditProfile = () => {
+  const [selectimage, setSelectImage] = useState(null);
+  // const [imageURLs, setImageURLs] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadImageAsBlob = async (imagePath) => {
+      try {
+        const response = await fetch(imagePath);
+        if (response.ok) {
+          const blob = await response.blob();
+          setSelectImage(URL.createObjectURL(blob));
+        } else {
+          throw new Error("Failed to load image.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // Run the effect when selectimage changes
+    if (selectimage) {
+      loadImageAsBlob(selectimage);
+    }
+  }, [selectimage]); // Dependency array with selectimage
+
+  // ...
+
+  function onImageChange(e) {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setSelectImage(URL.createObjectURL(selectedFile));
+    }
+  }
+
+  // ...
+
+  return (
+    // Your component JSX
+  );
+};
+
+export default EditProfile;

@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
+import PropTypes from "prop-types";
 
 const FlowFour = ({ nextStep }) => {
   const navigate = useNavigate();
@@ -73,3 +74,7 @@ const FlowFour = ({ nextStep }) => {
 };
 
 export default FlowFour;
+
+FlowFour.propTypes = {
+  nextStep: PropTypes.func,
+};

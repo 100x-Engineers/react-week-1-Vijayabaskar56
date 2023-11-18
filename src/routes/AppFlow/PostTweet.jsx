@@ -70,7 +70,6 @@ const PostTweet = () => {
           <section className="inline-flex flex-row items-center justify-center gap-3 px-4 py-2">
             <Image src={UserProfile} alt="user-avatar" className="inline" />
             <div>
-              {/* TODO: add interaction  */}
               <textarea
                 name="tweerInput"
                 id="tweerInput"

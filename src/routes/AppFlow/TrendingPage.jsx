@@ -10,7 +10,7 @@ const TrendingPage = () => {
         </div>
         <section className="items-start justify-start w-w01 fiex-col bg-zinc-900 rounded-2xl">
           <div className="w-80 h-11 px-3.5 py-2.5 justify-start items-center gap-2.5 inline-flex">
-            What’s happening
+            What&apos;s happening
           </div>
           <Trending />
           <div className="w-80 text-sky-500 h-12 p-3.5 justify-start items-start inline-flex">

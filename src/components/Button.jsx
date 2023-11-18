@@ -79,6 +79,7 @@ Button.propTypes = {
   buttonsize: PropTypes.oneOf(["sm", "md", "lg", "img"]),
   children: PropTypes.any,
   isdisable: PropTypes.bool,
+  customSize: PropTypes.string,
 };
 
 export default Button;

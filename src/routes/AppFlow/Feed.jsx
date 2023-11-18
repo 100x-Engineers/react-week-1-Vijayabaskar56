@@ -2,10 +2,10 @@ import Tweet from "./Tweet";
 import { useTweet } from "../context/index";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Logo100X from "../../assets/100x-frame.svg";
 
 const Feed = () => {
   const { tweets } = useTweet();
+  //TODO: replaec this with useRef hook
   const [tweet, setTweet] = useState(tweets);
   console.log([tweets], tweet);
   // setTweet(tweet);
@@ -19,9 +19,7 @@ const Feed = () => {
           </div>
         ))}
         {/* <Tweet tweet={tweet} /> */}
-        <div className="flex flex-col self-stretch bg-orange600">
-          NOting yet to see
-        </div>
+
         <div className="fixed hidden px-8 py-3 text-center transform -translate-x-1/2 rounded-full left-1/2 bottom-14 w-52 bg-searchbarFill whitespace-nowrap">
           Copied to clipboard.
         </div>

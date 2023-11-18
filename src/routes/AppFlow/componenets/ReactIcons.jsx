@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 
 function ReactIcons({ activImg, inactiveImg, value }) {
   const [isActive, setISActive] = useState(false);
@@ -17,3 +18,9 @@ function ReactIcons({ activImg, inactiveImg, value }) {
 }
 
 export default ReactIcons;
+
+ReactIcons.propTypes = {
+  activImg: PropTypes.string,
+  inactiveImg: PropTypes.string,
+  value: PropTypes.string,
+};

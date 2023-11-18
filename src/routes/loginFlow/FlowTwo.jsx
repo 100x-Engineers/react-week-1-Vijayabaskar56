@@ -1,11 +1,9 @@
-import React from "react";
 import InputField from "../../components/InputField";
-import { useNavigate } from "react-router-dom";
 import { useProfile } from "../context/login";
 import Button from "../../components/Button";
+import PropTypes from "prop-types";
 
 const FlowTwo = ({ nextStep }) => {
-  const navigate = useNavigate();
   const { profile } = useProfile();
   const [profileDetails] = profile;
   return (
@@ -49,3 +47,7 @@ const FlowTwo = ({ nextStep }) => {
 };
 
 export default FlowTwo;
+
+FlowTwo.propTypes = {
+  nextStep: PropTypes.func.isRequired,
+};

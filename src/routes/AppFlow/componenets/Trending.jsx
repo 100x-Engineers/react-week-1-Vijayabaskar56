@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Trending = ({ topicName, numberOfPosts }) => {
   return (
     <>
@@ -21,3 +23,8 @@ const Trending = ({ topicName, numberOfPosts }) => {
 };
 
 export default Trending;
+
+Trending.propTypes = {
+  topicName: PropTypes.string,
+  numberOfPosts: PropTypes.number,
+};
