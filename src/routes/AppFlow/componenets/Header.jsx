@@ -1,9 +1,10 @@
-import React from "react";
 import Image from "../../../components/Image";
 import { Link, useMatch } from "react-router-dom";
-import Logo100X from "../../assets/100x-frame.svg";
-import Profile from "../../assets/group-default.svg";
-import HomeIcon from "../../assets/home-default.svg";
+import Logo100X from "../../../assets/100x-frame.svg";
+import Profile from "../../../assets/group-default.svg";
+import HomeIcon from "../../../assets/home-default.svg";
+import plus from "../../../assets/content-add.svg";
+import Button from "../../../components/Button";
 
 const Header = () => {
   const isHomeActive = useMatch("/");
@@ -18,7 +19,7 @@ const Header = () => {
         >
           <div className="inline-flex items-center justify-start h-12 gap-5 px-5 py-3">
             <Image src={HomeIcon} alt="home-icon" />
-            {windowWidth > 1264 && (
+            {window.innerWidth > 1264 && (
               <p className="text-stone-50 text-lg font-medium font-['Inter'] hidden md:block w-52">
                 Home
               </p>
@@ -31,7 +32,7 @@ const Header = () => {
         >
           <div className="inline-flex items-center justify-start h-12 gap-5 px-5 py-3 ">
             <Image src={Profile} alt="profile-icon" />
-            {windowWidth > 1264 && (
+            {window.innerWidth > 1264 && (
               <p className="text-stone-50 text-lg font-medium font-['Inter'] hidden w-52  md:block">
                 Profile
               </p>
@@ -40,14 +41,14 @@ const Header = () => {
         </Link>
         <div className="p-3">
           <Button
-            varient={`${windowWidth > 1264 ? "bluebtn" : "img"}`}
+            varient={`${window.innerWidth > 1264 ? "bluebtn" : "img"}`}
             customSize={`${
-              windowWidth > 1264
+              window.innerWidth > 1264
                 ? "w-56 h-12 "
                 : "w-16 h-16 p-4 bg-twitterBluedefault rounded-full shadow justify-start items-start gap-2.5 inline-flex"
             }`}
           >
-            {windowWidth > 1264 ? (
+            {window.innerWidth > 1264 ? (
               <p>Post</p>
             ) : (
               <Image src={plus} alt="plus-icon" size={"w-8 h-8 relative z-"} />

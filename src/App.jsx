@@ -23,6 +23,7 @@ import {
   AuthProvider,
   AuthContext,
   TweetProvider,
+  useAuth,
 } from "./routes/context/index.js";
 import { LoginProvider } from "./routes/context/login.js";
 import ErrorPage from "./routes/Error404.jsx";
@@ -34,10 +35,11 @@ function App() {
   const [tweets, setTweets] = useState([]);
   const [profileDetails, setProfileDetails] = useState([]);
   const [login, isLogin] = useState(null);
-
+  // const { token } = useAuth();
   // Auth Context
   const setToken = (token) => {
     isLogin(token);
+    console.log(token, "from setToken");
   };
 
   const ProtectedRoutes = ({ children }) => {
@@ -90,7 +92,7 @@ function App() {
   useEffect(() => {
     const tweet = JSON.parse(localStorage.getItem("Tweets"));
     const profile = JSON.parse(localStorage.getItem("Profile"));
-    const Flow = JSON.parse(localStorage.getItem("Flow"));
+    const login = JSON.parse(localStorage.getItem("Flow"));
     if (tweet && tweet.length > 0) {
       console.log("hii");
       setTweets(tweet);
@@ -99,13 +101,17 @@ function App() {
       console.log("hii from profile");
       setProfileDetails(profile);
     }
-    console.log(Flow, "from local storage");
+    if (login && login.length > 0) {
+      isLogin("login");
+      console.log(login, "from local storage");
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("Tweets", JSON.stringify(tweets));
     localStorage.setItem("Profile", JSON.stringify(profileDetails));
-  }, [tweets, profileDetails]);
+    localStorage.setItem("Flow", JSON.stringify(login));
+  }, [tweets, profileDetails, login]);
 
   const [themeMode, setThemeMode] = useState("dark");
   const darkTheme = () => {
@@ -126,29 +132,13 @@ function App() {
       <>
         <Route
           path="/"
-          element={<WelcomePage />}
+          element={
+            <ProtectedRoutes>
+              <Home />
+            </ProtectedRoutes>
+          }
           errorElement={createPortal(<Error />, document.body)}
         ></Route>
-        {/* <Route
-          path="loginOne"
-          element={<LoginFlowOne />}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="loginTwo"
-          element={<LoginFlowTwo />}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="loginThree"
-          element={<LoginFlowThree />}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="loginFour"
-          element={<LoginFlowFour />}
-          errorElement={<ErrorPage />}
-        /> */}
 
         <Route path="home" element={<Home />} errorElement={<ErrorPage />}>
           <Route

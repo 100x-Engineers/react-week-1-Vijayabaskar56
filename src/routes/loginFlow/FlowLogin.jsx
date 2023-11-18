@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 function FlowLogin() {
   //   const { getProfileDetais } = useProfile();
   const navigate = useNavigate();
-  const { setToken } = useAuth();
+  const { setToken, token } = useAuth();
   const validation = object({
     email: string("Invalid Entry")
       .required("Name Required!")
@@ -43,7 +43,7 @@ function FlowLogin() {
                 console.error(error);
               })
               .finally(() => {
-                console.log("hi from login");
+                console.log("hi from login", token);
                 setSubmitting(false);
               });
           } catch (error) {
