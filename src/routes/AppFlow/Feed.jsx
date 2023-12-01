@@ -1,6 +1,6 @@
 import Tweet from "./Tweet";
 import { useTweet } from "../context/index";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Feed = () => {
@@ -8,6 +8,7 @@ const Feed = () => {
   //TODO: replaec this with useRef hook
   const [tweet, setTweet] = useState(tweets);
   console.log([tweets], tweet);
+
   // setTweet(tweet);
   return (
     <>

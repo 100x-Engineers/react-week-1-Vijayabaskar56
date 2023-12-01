@@ -2,55 +2,43 @@ import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import Image from "../../components/Image";
 import UserProfile from "../../assets/user-avatar.svg";
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useRef } from "react";
 import Closebtn from "../../assets/cancel.svg";
-import { useTweet } from "../context";
+import { useAuth, useTweet } from "../context";
+import TextareaAutosize from "react-textarea-autosize";
 
 const PostTweet = () => {
+  const { user } = useAuth();
   const [charCount, setcharCount] = useState(0);
   const ref = useRef();
   const navigate = useNavigate();
   const { tweet, postTweet } = useTweet();
   const [tweets, settweet] = useState(" ");
 
-  // This only tracks the auto-sized height so we can tell if the user has manually resized
-  const autoHeight = useRef();
-
-  useLayoutEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
-    if (
-      autoHeight.current !== undefined &&
-      ref.current.style.height !== autoHeight.current
-    ) {
-      // don't auto size if the user has manually changed the height
-      return;
-    }
-
-    ref.current.style.height = "auto";
-    ref.current.style.overflow = "hidden";
-    const next = `${ref.current.scrollHeight}px`;
-    ref.current.style.height = next;
-    autoHeight.current = next;
-    ref.current.style.overflow = "auto";
-  }, [tweets, ref, autoHeight]);
-
   const handleChange = (e) => {
     let count = e.target.value;
-    settweet(count);
+    settweet(tweets);
     console.log(tweets);
     setcharCount(count.length);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!tweets) return;
-    const sent = {
-      tweetText: tweets,
+    const payload = {
+      content: tweets,
+      userId: user.id,
     };
-    postTweet(sent);
+
+    await fetch("http://localhost:3000/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    postTweet(tweets);
     settweet("");
     navigate(-1);
   };
@@ -67,24 +55,30 @@ const PostTweet = () => {
               Post
             </Button>
           </header>
-          <section className="inline-flex flex-row items-center justify-center gap-3 px-4 py-2">
-            <Image src={UserProfile} alt="user-avatar" className="inline" />
-            <div>
-              <textarea
+          <section className="relative inline-flex flex-row items-center justify-center gap-3 px-4 py-2">
+            <div className="flex h-40 ">
+              <Image
+                src={UserProfile}
+                alt="user-avatar"
+                className="sticky top-0 mb-auto"
+                ref={ref}
+              />
+            </div>
+            <div className="flex-grow">
+              <TextareaAutosize
                 name="tweerInput"
                 id="tweerInput"
-                ref={ref}
                 cols="40"
                 style={{
                   resize: "vertical",
-                  minHeight: "1em",
                 }}
-                value={tweets}
-                onChange={handleChange}
                 className={`bg-black resize-y focus:outline-none caret-twitterBlue w-full placeholder:text-neutral600 ${
                   charCount < 280 ? "text-neutral-50" : "text-red-700"
                 }`}
                 placeholder="What's happening?!"
+                cacheMeasurements
+                value={tweet}
+                onChange={handleChange}
               />
             </div>
           </section>

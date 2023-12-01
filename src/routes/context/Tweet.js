@@ -3,13 +3,10 @@ import { useContext, createContext } from "react";
 export const TweetContext = createContext({
   tweet: [
     {
-      id: 0,
+      id: "",
       userId: "",
-      tweetText: "",
-      time: "",
-      comments: 0,
-      retweet: 0,
-      likes: 0,
+      content: "",
+      postedAt: "",
     },
   ],
   postTweet: (tweet) => {},

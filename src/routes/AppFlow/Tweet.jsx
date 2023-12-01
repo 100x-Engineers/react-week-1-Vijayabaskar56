@@ -19,14 +19,14 @@ const Tweet = ({ ...tweets }) => {
       <main>
         <section className="inline-flex items-start justify-start w-full h-full gap-4 px-4 py-2 border-b border-neutral700">
           <Avatar Avatar={userAvatar} />
-          <div className="inline-flex flex-col items-start justify-start gap-1 grow shrink basis-0">
+          <div className="inline-flex flex-col items-start justify-start gap-1 w-fit grow shrink basis-0">
             <TweetHeader
               name={tweets.tweet.userId}
               userId={tweets.tweet.id}
               time={tweets.tweet.time}
               tweet={tweets.tweet.tweetText}
             />
-            <div className="inline-flex items-center self-stretch justify-between">
+            <div className="inline-flex items-center self-stretch justify-between w-full">
               <ReactIcons
                 activImg={CommentIcon}
                 inactiveImg={CommentIcon}

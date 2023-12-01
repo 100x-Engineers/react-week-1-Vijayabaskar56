@@ -4,8 +4,12 @@ import InputField from "../../components/InputField";
 import DropDOwn from "../../components/DropDOwn";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { useImperativeHandle } from "react";
 
-function FlowOne({ nextStep, getProfileDetais }) {
+function FlowOne({ nextStep, getUserData }) {
+  const navigate = useNavigate();
+  console.log(getUserData);
   const validation = object({
     name: string("Invalid Entry")
       .required("Name Required!")
@@ -28,25 +32,22 @@ function FlowOne({ nextStep, getProfileDetais }) {
           year: "",
         }}
         validationSchema={validation}
-        onSubmit={(
+        onSubmit={async (
           { name, email, month, day, year },
           { setSubmitting, resetForm }
         ) => {
-          setTimeout(() => {
-            const dof = `${day}/${month}/${year}`;
-            const profile = [
-              {
-                name: name,
-                email: email,
-                dateOfBirth: dof,
-              },
-            ];
-            getProfileDetais(profile);
-            console.log(profile);
-            resetForm();
-            setSubmitting(false);
-            nextStep();
-          }, 3000);
+          const dof = `${day}/${month}/${year}`;
+
+          const profile = {
+            username: name,
+            email,
+            dateOfBirth: dof,
+          };
+          console.log(profile);
+          resetForm();
+          setSubmitting(false);
+          getUserData(profile);
+          nextStep();
         }}
       >
         {({

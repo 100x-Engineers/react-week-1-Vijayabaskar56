@@ -3,20 +3,31 @@ import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
 
-const FlowThree = ({ nextStep }) => {
+const FlowThree = ({ nextStep, userInfo }) => {
   return (
     <>
       <div className="flex-col items-center justify-center">
         <Formik
           initialValues={{ VerificationCode: "" }}
           // validate=
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
+          onSubmit={async (values, { setSubmitting }) => {
+            setSubmitting(true);
+            try {
+              await fetch("http://localhost:3000/verificationCode", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userInfo),
+              })
+                .then((res) => res.json())
+                .then((res) => console.log(res))
+                .then(() => nextStep())
+                .catch((err) => console.log(err));
+            } catch (error) {
               setSubmitting(false);
-              nextStep();
-              // navigate("/loginFour");
-            }, 400);
+              console.log(error);
+            }
           }}
         >
           {({
@@ -59,6 +70,7 @@ const FlowThree = ({ nextStep }) => {
                   <Button
                     varient="base"
                     btnsize="md"
+                    type="submit"
                     text="Next"
                     btntype="submit"
                     disabled={isSubmitting}

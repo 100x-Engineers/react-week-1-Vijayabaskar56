@@ -9,8 +9,8 @@ const Profile = () => {
   // const [tweet, setTweet] = useState(tweets);
   return (
     <>
-      <div className="flex md:items-center md:justify-center md:w-screen">
-        <div className="bg-black md:w-3/5 text-neutral50">
+      <div className="flex w-fit md:items-center md:justify-center ">
+        <div className="bg-black text-neutral50">
           <ProfileHeader />
           <main>
             {tweets.map((tweets) => (

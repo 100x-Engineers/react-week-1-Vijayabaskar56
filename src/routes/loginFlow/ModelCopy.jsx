@@ -5,12 +5,18 @@ import FlowOne from "./FlowOne";
 import FlowThree from "./FlowThree";
 import FlowTwo from "./FlowTwo";
 import FlowFour from "./FlowFour";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import FlowLogin from "./FlowLogin";
 import PropTypes from "prop-types";
 
-const Modal = ({ close, getProfileDetails, step }) => {
+const Model = ({ close, step }) => {
   const [currentStep, setCurrentStep] = useState(step);
+  const userRef = useRef(null);
+
+  const getUserData = (profile) => {
+    userRef.current = profile;
+  };
+  console.log(userRef.current);
 
   const nextStep = () => {
     if (currentStep < 4) {
@@ -62,24 +68,28 @@ const Modal = ({ close, getProfileDetails, step }) => {
           <div className="flex-col items-center justify-center">
             {currentStep === 0 && <FlowLogin nextStep={nextStep} />}
             {currentStep === 1 && (
-              <FlowOne
-                nextStep={nextStep}
-                getProfileDetais={getProfileDetails}
-              />
+              <FlowOne nextStep={nextStep} getUserData={getUserData} />
             )}
-            {currentStep === 2 && <FlowTwo nextStep={nextStep} />}
-            {currentStep === 3 && <FlowThree nextStep={nextStep} />}
-            {currentStep === 4 && <FlowFour nextStep={nextStep} />}
+            {currentStep === 2 && (
+              <FlowTwo nextStep={nextStep} userInfo={userRef.current} />
+            )}
+            {currentStep === 3 && (
+              <FlowThree nextStep={nextStep} userInfo={userRef.current} />
+            )}
+            {currentStep === 4 && (
+              <FlowFour nextStep={nextStep} userInfo={userRef.current} />
+            )}
           </div>
+          {/* <Outlet /> */}
         </section>
       </div>
     </>
   );
 };
 
-export default Modal;
+export default Model;
 
-Modal.propTypes = {
+Model.propTypes = {
   close: PropTypes.func.isRequired,
   getProfileDetails: PropTypes.func.isRequired,
   step: PropTypes.number.isRequired,

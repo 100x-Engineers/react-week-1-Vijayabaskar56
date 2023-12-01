@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useMatch } from "react-router-dom";
+import { Link, Outlet, useMatch } from "react-router-dom";
 import Image from "../../components/Image";
 import Logo100X from "../../assets/100x-frame.svg";
 import Nav from "./Nav";
@@ -65,7 +65,8 @@ const Home = () => {
           {windowWidth > 760 && <Header />}
           <section className="flex w-full overflow-scroll scroll-m-0 scroll-smooth">
             <div className="w-full border-r-2 border-gray-800 md:max-w-xl">
-              <Nav />
+              {/* <Nav /> */}
+              <Outlet />
             </div>
             {windowWidth > 988 && <TrandingPage />}
           </section>

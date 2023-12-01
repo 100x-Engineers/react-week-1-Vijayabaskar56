@@ -1,17 +1,22 @@
 import Image from "../../components/Image";
 import x100Logo from "../../assets/100x-frame.svg";
 import Button from "../../components/Button";
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
 import { createPortal } from "react-dom";
-import Modal from "./Modal";
-import { useProfile } from "../context/login";
+// import Modal from "./Modal";
+import Modal from "./ModelCopy";
 import PropTypes from "prop-types";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const WelcomePage = () => {
+const WelcomePage = (getProfileDetais) => {
   const [showModalLogin, setShowModalLogin] = useState(false);
   const [showModelSignin, setShowModalSignin] = useState(false);
-  const { getProfileDetais } = useProfile();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    setShowModalSignin(true);
+    navigate("/");
+  };
 
   return (
     <>
@@ -34,11 +39,7 @@ const WelcomePage = () => {
               Join today.
             </h2>
           </div>
-          <Button
-            varient="base"
-            buttonsize="md"
-            onClick={() => setShowModalSignin(true)}
-          >
+          <Button varient="base" buttonsize="md" onClick={() => handleClick()}>
             Create Account
           </Button>
           {showModelSignin &&
@@ -50,6 +51,7 @@ const WelcomePage = () => {
               />,
               document.body
             )}
+
           {/* <Outlet /> */}
           <section className="inline-flex items-center justify-center h-5 gap-1 w-80">
             <span className="h-px border grow shrink basis-0 border-neutral-700" />
@@ -78,7 +80,6 @@ const WelcomePage = () => {
           </section>
         </section>
       </div>
-      <Outlet />
     </>
   );
 };

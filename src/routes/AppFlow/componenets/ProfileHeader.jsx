@@ -11,11 +11,11 @@ const ProfileHeader = () => {
             alt="banner"
             className="flex-shrink-0 w-screen h-h02"
           />
-          <img
+          {/* <img
             src="../../public/images/user-avatar.svg"
             alt="profileIcon"
             className="absolute w-12 h-12 border-2 border-solid rounded-full top-32 left-5 border-neutral1000"
-          />
+          /> */}
           <Link to="/editprofile">
             <Button varient="outlineBlack" buttonsize="sm">
               Edit Profile
