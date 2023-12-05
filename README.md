@@ -2,6 +2,8 @@
 
 ### Task Description:
 
+## Deployed link : - https://react-week-1-vijayabaskar56.vercel.app/
+
 You need to convert your layout assignment to JSX.
 Break down the layout’s code into reusable React components such as Buttons, Header, Footer, Tweet, ProfileCard, etc.
 Ensure that each component is in its own file, and organize these files in a logical folder structure.
