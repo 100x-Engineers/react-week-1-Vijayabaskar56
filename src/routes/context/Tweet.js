@@ -1,14 +1,7 @@
 import { useContext, createContext } from "react";
 
 export const TweetContext = createContext({
-  tweet: [
-    {
-      id: "",
-      userId: "",
-      content: "",
-      postedAt: "",
-    },
-  ],
+  tweet: null,
   postTweet: (tweet) => {},
   updateTweet: (id, tweet) => {},
   deleteTweet: (id, tweet) => {},

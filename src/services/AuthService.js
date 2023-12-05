@@ -1,4 +1,4 @@
-const URL = "https://one00x-react-backend.onrender.com/";
+const URL = "http://localhost:3000/";
 
 export const AuthService = async (email, password) => {
   try {

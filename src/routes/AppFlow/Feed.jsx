@@ -1,24 +1,32 @@
-import Tweet from "./Tweet";
+// import Tweet from "./Tweet";
 import { useTweet } from "../context/index";
-import { useEffect, useState } from "react";
+import React, { Suspense, use, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchTweetService } from "../../services/fecthTweetService";
+import { useDataContext } from "../context/useFetchDataContext";
+import Tweet from "./Tweet";
 
 const Feed = () => {
-  const { tweets } = useTweet();
-  //TODO: replaec this with useRef hook
-  const [tweet, setTweet] = useState(tweets);
-  console.log([tweets], tweet);
-
-  // setTweet(tweet);
+  const { tweets, isLoadingtweets, isErrortweets } = useDataContext();
   return (
     <>
       <div className="bg-neutral1000 text-neutral50">
-        {tweet.map((tweets) => (
-          <div key={tweets.id}>
-            {console.log(tweets)}
-            <Tweet tweet={tweets} />
-          </div>
-        ))}
+        {isLoadingtweets ? (
+          <div>Loading....</div>
+        ) : (
+          tweets.map((tweet) => (
+            <div key={tweet.id}>
+              {console.log(tweet)}
+              <Tweet
+                userId={tweet.userId}
+                id={tweet.id}
+                postedAt={tweet.postedAt}
+                content={tweet.content}
+                likeCount={tweet.likeCount}
+              />
+            </div>
+          ))
+        )}
         {/* <Tweet tweet={tweet} /> */}
 
         <div className="fixed hidden px-8 py-3 text-center transform -translate-x-1/2 rounded-full left-1/2 bottom-14 w-52 bg-searchbarFill whitespace-nowrap">

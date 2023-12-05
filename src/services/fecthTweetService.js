@@ -1,15 +1,16 @@
-const URL = "http://localhost:8000/tweets/";
+const URL = "http://localhost:3000/feed";
 
 export const fetchTweetService = async () => {
   try {
-    const tweetS = await fetch(URL, {
+    const res = await fetch(URL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((response) => response.json())
-      .then((data) => data);
+    });
+
+    const tweetS = await res.json();
+
     console.log(tweetS);
     return tweetS;
   } catch (error) {

@@ -3,11 +3,11 @@ import { object, string } from "yup";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import { AuthService } from "../../services/AuthService";
-import { useAuth } from "../context/index.js";
+import { useAuth } from "../context/Auth";
 
 function FlowLogin() {
   //   const { getProfileDetais } = useProfile();
-  const { setToken, token } = useAuth();
+  const { setToken, token, user, setUser } = useAuth();
   const validation = object({
     email: string("Invalid Entry")
       .required("Name Required!")
@@ -28,10 +28,13 @@ function FlowLogin() {
           try {
             AuthService(email, password)
               .then((response) => {
-                console.log(response, response.token);
+                console.log(response, response.accessToken, response.userid);
                 // Assuming AuthService returns an object with a data property
-                if (response && response.message && response.token) {
-                  setToken(response.token);
+                if (response.userid) {
+                  setUser(response.userid);
+                }
+                if (response.accessToken) {
+                  setToken(response.accessToken);
                 } else {
                   throw new Error("Authentication failed");
                 }
@@ -40,7 +43,7 @@ function FlowLogin() {
                 console.error(error);
               })
               .finally(() => {
-                console.log("hi from login", token);
+                console.log("hi from login", token, user);
                 setSubmitting(false);
               });
           } catch (error) {

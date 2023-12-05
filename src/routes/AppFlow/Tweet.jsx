@@ -12,8 +12,7 @@ import { useState } from "react";
 import TweetHeader from "./componenets/TweetHeader";
 import Avatar from "./componenets/Avatar";
 
-const Tweet = ({ ...tweets }) => {
-  console.log(tweets);
+const Tweet = ({ userId, id, postedAt, content, likeCount }) => {
   return (
     <>
       <main>
@@ -21,10 +20,10 @@ const Tweet = ({ ...tweets }) => {
           <Avatar Avatar={userAvatar} />
           <div className="inline-flex flex-col items-start justify-start gap-1 w-fit grow shrink basis-0">
             <TweetHeader
-              name={tweets.tweet.userId}
-              userId={tweets.tweet.id}
-              time={tweets.tweet.time}
-              tweet={tweets.tweet.tweetText}
+              name={userId}
+              userId={id}
+              time={postedAt}
+              tweet={content}
             />
             <div className="inline-flex items-center self-stretch justify-between w-full">
               <ReactIcons
@@ -41,7 +40,7 @@ const Tweet = ({ ...tweets }) => {
               <ReactIcons
                 activImg={heartICon}
                 inactiveImg={heartActiveIcon}
-                value="11"
+                value={likeCount}
               />
               <ReactIcons
                 activImg={reachIcon}

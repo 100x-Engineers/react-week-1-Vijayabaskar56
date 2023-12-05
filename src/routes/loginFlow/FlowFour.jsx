@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
-import { useAuth } from "../context";
+import { useAuth } from "../context/Auth";
 
 const FlowFour = ({ nextStep, userInfo }) => {
   const navigate = useNavigate();
-  const { token, setToken, setUser } = useAuth();
+  const { setToken, setUser } = useAuth();
 
   return (
     <>
@@ -35,11 +35,11 @@ const FlowFour = ({ nextStep, userInfo }) => {
                   if (
                     response &&
                     response.message &&
-                    response.authToken &&
-                    response.userInfo
+                    response.accessToken &&
+                    response.userid
                   ) {
-                    setToken(response.authToken);
-                    setUser(response.userInfo);
+                    setToken(response.accessToken);
+                    setUser(response.userid);
                   } else {
                     throw new Error("Authentication failed");
                   }

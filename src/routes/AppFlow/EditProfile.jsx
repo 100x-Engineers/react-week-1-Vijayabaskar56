@@ -8,6 +8,7 @@ import Arrow from "../../assets/back.svg";
 import AddBanner from "../../assets//material-symbols-add-a-photo-outline.svg";
 import RemoveBanner from "../../assets/cancel.svg";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const EditProfile = () => {
   const [selectimage, setSelectImage] = useState(null);
@@ -75,12 +76,22 @@ const EditProfile = () => {
               bio: " ",
             }}
             validationSchema={validation}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              setTimeout(() => {
-                console.log(values);
-                resetForm();
-                setSubmitting(false);
-              }, 3000);
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              axios
+                .post("http://localhost:3000/editProfile", {
+                  userId: 49,
+                  displayName: values.name,
+                  location: values.location,
+                  website: values.website,
+                  bio: values.bio,
+                })
+                .then((data) => {
+                  console.log(data);
+                  navigate(-1);
+                })
+                .catch((error) => {
+                  console.error("Error:", error);
+                });
             }}
           >
             {({
@@ -117,7 +128,6 @@ const EditProfile = () => {
                     buttonsize="sm"
                     type="submmit"
                     disabled={isSubmitting}
-                    onClick={() => navigate(-1)}
                   >
                     Save
                   </Button>
@@ -228,6 +238,3 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
-
-
-

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Tweet from "./Tweet";
 import { useTweet } from "../context";
 import ProfileHeader from "./componenets/ProfileHeader";
+import { useDataContext } from "../context/useFetchDataContext";
 
 const Profile = () => {
   const { tweets } = useTweet();
