@@ -71,8 +71,6 @@ const FlowThree = ({ nextStep, userInfo }) => {
                     varient="base"
                     btnsize="md"
                     type="submit"
-                    text="Next"
-                    btntype="submit"
                     disabled={isSubmitting}
                     // onClick={() => {navigate("/loginFour")}}
                   >

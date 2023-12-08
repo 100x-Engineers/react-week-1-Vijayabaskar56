@@ -32,14 +32,10 @@ export const DataContextProvider = ({ children }) => {
         setIsLoadingUser(false);
       } else {
         setIsErrorUser(response.message);
-        setIsLoadingUser(false);
       }
     } catch (error) {
       console.log(error);
-      setIsErrorUser("Error Fecting User Data");
-      setIsLoadingUser(false);
-    } finally {
-      setIsLoadingUser(false);
+      // setIsErrorUser("Error Fecting User Data");
     }
   };
 
@@ -53,13 +49,9 @@ export const DataContextProvider = ({ children }) => {
         setIsLoadingtweets(false);
       } else {
         setIsErrortweets(response);
-        setIsLoadingtweets(false);
       }
     } catch (error) {
       console.log(error);
-      setIsErrortweets(true);
-    } finally {
-      setIsLoadingtweets(false);
     }
   };
 
@@ -73,13 +65,11 @@ export const DataContextProvider = ({ children }) => {
         setIsLoadingUserTweets(false);
       } else {
         setIsErrorUserTweets(response.body.message);
-        setIsLoadingUserTweets(false);
+        // setIsLoadingUserTweets(false);
       }
     } catch (error) {
       console.log(error);
       setIsErrorUserTweets(true);
-    } finally {
-      setIsLoadingUserTweets(false);
     }
   };
 
@@ -95,9 +85,11 @@ export const DataContextProvider = ({ children }) => {
     <DataContext.Provider
       value={{
         users,
+        setUser,
         isLoadingUser,
         isErrorUser,
         tweets,
+        setTweets,
         isLoadingtweets,
         isErrortweets,
         userTweets,

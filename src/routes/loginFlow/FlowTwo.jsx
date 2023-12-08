@@ -2,10 +2,15 @@ import InputField from "../../components/InputField";
 import { useProfile } from "../context/login";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
+import { useState } from "react";
 
 const FlowTwo = ({ nextStep, userInfo }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [iserror, setIsError] = useState(false);
+
   const handleClick = async () => {
     try {
+      setIsSubmitting(true);
       await fetch("http://localhost:3000/registration", {
         method: "POST",
         headers: {
@@ -17,8 +22,10 @@ const FlowTwo = ({ nextStep, userInfo }) => {
         .then((res) =>
           res.status == 200 ? nextStep() : new Error(res.message)
         );
+      setIsSubmitting(false);
       nextStep();
     } catch (err) {
+      setIsError(true);
       console.log(userInfo);
       console.log(err);
     }
@@ -27,6 +34,8 @@ const FlowTwo = ({ nextStep, userInfo }) => {
   return (
     <>
       <div className="flex-col items-center justify-center gap-8">
+        {iserror && <div className="text-red-500">Something went wrong</div>}
+        {isSubmitting && <div className="text-blue-500">Loading...</div>}
         <section
           action
           className="inline-flex flex-col justify-between w-full gap-8"

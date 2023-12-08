@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const Nav = () => {
   const [isActive, setIsActive] = useState(true);
@@ -36,7 +37,9 @@ const Nav = () => {
             </div>
           </nav>
         </div>
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
       </div>
     </>
   );

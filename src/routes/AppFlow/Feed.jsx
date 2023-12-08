@@ -5,22 +5,36 @@ import { Link } from "react-router-dom";
 import { fetchTweetService } from "../../services/fecthTweetService";
 import { useDataContext } from "../context/useFetchDataContext";
 import Tweet from "./Tweet";
+import Loader from "../../components/Loader";
 
 const Feed = () => {
-  const { tweets, isLoadingtweets, isErrortweets } = useDataContext();
+  const { tweets, isLoadingtweets } = useDataContext();
+
+  const calculateTimePassed = (dateString) => {
+    const currentDate = new Date();
+    const givenDate = new Date(dateString);
+
+    const diffInMilliseconds = currentDate - givenDate;
+    const diffInHours = diffInMilliseconds / (1000 * 60 * 60);
+    const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
+    return Math.floor(diffInHours) > 24
+      ? Math.floor(diffInDays) + " d"
+      : Math.floor(diffInHours) + " h";
+  };
+
   return (
     <>
       <div className="bg-neutral1000 text-neutral50">
         {isLoadingtweets ? (
-          <div>Loading....</div>
+          <Loader />
         ) : (
           tweets.map((tweet) => (
             <div key={tweet.id}>
               {console.log(tweet)}
               <Tweet
-                userId={tweet.userId}
-                id={tweet.id}
-                postedAt={tweet.postedAt}
+                userId={tweet.user.displayName}
+                id={tweet.user.username}
+                postedAt={calculateTimePassed(tweet.createdAt)}
                 content={tweet.content}
                 likeCount={tweet.likeCount}
               />

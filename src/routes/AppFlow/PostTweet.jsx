@@ -7,9 +7,10 @@ import Closebtn from "../../assets/cancel.svg";
 import { useAuth } from "../context/Auth";
 import TextareaAutosize from "react-textarea-autosize";
 import { useTweet } from "../context";
+import { useDataContext } from "../context/useFetchDataContext";
 
 const PostTweet = () => {
-  const { user } = useAuth();
+  const { users, setTweets } = useDataContext();
   const [charCount, setcharCount] = useState(0);
   const ref = useRef();
   const navigate = useNavigate();
@@ -28,18 +29,19 @@ const PostTweet = () => {
     if (!tweets) return;
     const payload = {
       content: tweets,
-      userId: user.id,
+      userId: users.id,
     };
 
-    await fetch("http://localhost:3000/posts", {
+    const res = await fetch("http://localhost:3000/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     });
-
-    postTweet(tweets);
+    console.log(res);
+    // postTweet(tweets);
+    setTweets(tweets);
     settweet("");
     navigate(-1);
   };
