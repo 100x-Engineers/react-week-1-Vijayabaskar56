@@ -1,10 +1,12 @@
 import { useContext, createContext } from "react";
 
 export const TweetContext = createContext({
-  tweet: null,
-  postTweet: (tweet) => {},
-  updateTweet: (id, tweet) => {},
-  deleteTweet: (id, tweet) => {},
+  tweets: null,
+  isLoadingtweets: true,
+  isErrortweets: "",
+  setTweets: () => {},
+  setIsLoadingtweets: () => {},
+  setIsErrortweets: () => {},
 });
 
 export const TweetProvider = TweetContext.Provider;

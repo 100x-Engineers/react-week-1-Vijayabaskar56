@@ -31,7 +31,7 @@ const Button = ({
       "bg-neutral50 px-6 py-2 text-neutral50 bg-twitterBlue rounded-3xl text-center  font-bold shadow-btnShadow backdrop-blur-2xl gap-2.5 hover:bg-neutral200 whitespace-nowrap",
     outlineBlack:
       "inline-flex items-center justify-center px-5 py-2 font-bold border border-opacity-25 shadow w-28 h-7 rounded-3xl whitespace-nowrap bg-neutral1000 border-neutral50 backdrop-blur-2xl text-neutral50",
-    img: "w-6 h-6  relative",
+    img: "w-9 h-9  relative",
   };
 
   const btnsize = {

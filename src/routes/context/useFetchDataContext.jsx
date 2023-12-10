@@ -32,14 +32,10 @@ export const DataContextProvider = ({ children }) => {
         setIsLoadingUser(false);
       } else {
         setIsErrorUser(response.message);
-        setIsLoadingUser(false);
       }
     } catch (error) {
       console.log(error);
-      setIsErrorUser("Error Fecting User Data");
-      setIsLoadingUser(false);
-    } finally {
-      setIsLoadingUser(false);
+      // setIsErrorUser("Error Fecting User Data");
     }
   };
 
@@ -53,33 +49,27 @@ export const DataContextProvider = ({ children }) => {
         setIsLoadingtweets(false);
       } else {
         setIsErrortweets(response);
-        setIsLoadingtweets(false);
       }
     } catch (error) {
       console.log(error);
-      setIsErrortweets(true);
-    } finally {
-      setIsLoadingtweets(false);
     }
   };
 
   const fetchUserTweets = async () => {
     setIsLoadingUserTweets(true);
     try {
-      const response = await axios.get(`${appUrl}/tweets/${users.id}}`);
+      const response = await axios.get(`${appUrl}/userTweets`);
       if (response && response.status >= 200 && response.status < 300) {
         console.log(response.data);
         setUserTweets(response.data);
         setIsLoadingUserTweets(false);
       } else {
         setIsErrorUserTweets(response.body.message);
-        setIsLoadingUserTweets(false);
+        // setIsLoadingUserTweets(false);
       }
     } catch (error) {
       console.log(error);
       setIsErrorUserTweets(true);
-    } finally {
-      setIsLoadingUserTweets(false);
     }
   };
 
@@ -87,7 +77,7 @@ export const DataContextProvider = ({ children }) => {
     if (token) {
       fetchUser();
       fetchTweets();
-      // fetchUserTweets();
+      fetchUserTweets();
     }
   }, [token]);
 
@@ -95,14 +85,18 @@ export const DataContextProvider = ({ children }) => {
     <DataContext.Provider
       value={{
         users,
+        setUser,
         isLoadingUser,
         isErrorUser,
         tweets,
+        setTweets,
         isLoadingtweets,
         isErrortweets,
         userTweets,
         isLoadingUserTweets,
         isErrorUserTweets,
+        fetchUser,
+        fetchUserTweets,
       }}
     >
       {children}

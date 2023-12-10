@@ -18,7 +18,7 @@ const FlowThree = ({ nextStep, userInfo }) => {
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify(userInfo),
+                body: JSON.stringify(values),
               })
                 .then((res) => res.json())
                 .then((res) => console.log(res))
@@ -71,8 +71,6 @@ const FlowThree = ({ nextStep, userInfo }) => {
                     varient="base"
                     btnsize="md"
                     type="submit"
-                    text="Next"
-                    btntype="submit"
                     disabled={isSubmitting}
                     // onClick={() => {navigate("/loginFour")}}
                   >

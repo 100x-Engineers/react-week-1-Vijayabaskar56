@@ -3,7 +3,7 @@ import x100Logo from "../../assets/100x-frame.svg";
 import Button from "../../components/Button";
 import { createPortal } from "react-dom";
 // import Modal from "./Modal";
-import Modal from "./ModelCopy";
+import Modal from "./Model";
 import PropTypes from "prop-types";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";

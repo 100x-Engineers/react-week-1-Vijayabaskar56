@@ -39,20 +39,20 @@ const Header = () => {
             )}
           </div>
         </Link>
-        <div className="p-3">
+        <div className="">
           <Button
             onClick={() => navigator("/postTweet")}
             varient={`${window.innerWidth > 1264 ? "bluebtn" : "img"}`}
             customSize={`${
               window.innerWidth > 1264
                 ? "w-56 h-12 "
-                : "w-16 h-16 p-4 bg-twitterBluedefault rounded-full shadow justify-start items-start gap-2.5 inline-flex"
+                : "w-16 h-16 bg-twitterBluedefault rounded-full shadow justify-start items-start gap-2.5 inline-flex"
             }`}
           >
             {window.innerWidth > 1264 ? (
               <p>Post</p>
             ) : (
-              <Image src={plus} alt="plus-icon" size={"w-8 h-8"} />
+              <Image src={plus} alt="plus-icon" size={"w-8 h-8 m-auto"} />
             )}
           </Button>
         </div>

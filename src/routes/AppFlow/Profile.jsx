@@ -1,31 +1,116 @@
-import Button from "../../components/Button";
-import { Link } from "react-router-dom";
+// Component imports
 import Tweet from "./Tweet";
-import { useTweet } from "../context";
 import ProfileHeader from "./componenets/ProfileHeader";
-import { useDataContext } from "../context/useFetchDataContext";
+import Loader from "../../components/Loader";
+
+// Context imports
+import { UserTweetProvider } from "../context/UserTweet";
+import { UserProvider } from "../context/UserContext";
+
+import axios from "axios";
+import { Suspense, useEffect, useState } from "react";
+import { appUrl } from "../../utils/urls";
 
 const Profile = () => {
-  const { tweets } = useTweet();
-  // const [tweet, setTweet] = useState(tweets);
+  const [userTweets, setUserTweets] = useState();
+  const [isLoadingUserTweets, setIsLoadingUserTweets] = useState(true);
+  const [isErrorUserTweets, setIsErrorUserTweets] = useState("");
+
+  const [users, setUser] = useState();
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const [isErrorUser, setIsErrorUser] = useState("");
+
+  const fetchUser = async () => {
+    setIsLoadingUser(true);
+    try {
+      const response = await axios.get(`${appUrl}/users`);
+      if (response && response.status >= 200 && response.status < 300) {
+        const { user } = response.data;
+        setUser(user);
+        setIsLoadingUser(false);
+      } else {
+        setIsErrorUser(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsErrorUser(error);
+    }
+  };
+
+  const fetchUserTweets = async () => {
+    setIsLoadingUserTweets(true);
+    try {
+      const response = await axios.get(`${appUrl}/userTweets`);
+      if (response && response.status >= 200 && response.status < 300) {
+        console.log(response.data);
+        setUserTweets(response.data);
+        setIsLoadingUserTweets(false);
+      } else {
+        setIsErrorUserTweets(response.body.message);
+        // setIsLoadingUserTweets(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsErrorUserTweets(true);
+    }
+  };
+
+  const calculateTimePassed = (dateString) => {
+    const currentDate = new Date();
+    const givenDate = new Date(dateString);
+
+    const diffInMilliseconds = currentDate - givenDate;
+    const diffInHours = diffInMilliseconds / (1000 * 60 * 60);
+    const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
+    return Math.floor(diffInHours) > 24
+      ? Math.floor(diffInDays) + " d"
+      : Math.floor(diffInHours) + " h";
+  };
+
+  useEffect(() => {
+    fetchUserTweets();
+    fetchUser();
+  }, []);
+
   return (
     <>
       <div className="flex w-fit md:items-center md:justify-center ">
         <div className="bg-black text-neutral50">
-          <ProfileHeader />
-          <main>
-            {tweets.map((tweets) => (
-              <div key={tweets.id}>
-                {console.log(tweets)}
-                <Tweet tweet={tweets} />
-              </div>
-            ))}
-          </main>
-          <button className="fixed right-5 transform -translate-x bottom-14 w-16 h-16 p-4 bg-twitterBluedefault rounded-full shadow justify-start items-start gap-2.5 inline-flex">
-            <Link to="/postTweet">
-              <img src="../../public/images/content-add.svg" alt="plus-icon" />
-            </Link>
-          </button>
+          <Suspense fallback={<Loader />}>
+            <UserProvider value={{ users, isLoadingUser, isErrorUser }}>
+              <ProfileHeader />
+            </UserProvider>
+          </Suspense>
+          <UserTweetProvider
+            value={{
+              userTweets,
+              isLoadingUserTweets,
+              isErrorUserTweets,
+              setUserTweets,
+              setIsLoadingUserTweets,
+              setIsErrorUserTweets,
+            }}
+          >
+            <main className="border-t-2 botder border-neutral-800">
+              {isLoadingUserTweets ? (
+                <Loader />
+              ) : (
+                userTweets.map((tweet) => (
+                  <div key={tweet.id}>
+                    <Tweet
+                      tweetId={tweet.id}
+                      displayName={tweet.user.displayName}
+                      userName={tweet.user.username}
+                      postedAt={calculateTimePassed(tweet.createdAt)}
+                      content={tweet.content}
+                      likeCount={tweet.likes.length}
+                      retweetCount={tweet.reposts.length}
+                    />
+                  </div>
+                ))
+              )}
+            </main>
+          </UserTweetProvider>
         </div>
       </div>
     </>

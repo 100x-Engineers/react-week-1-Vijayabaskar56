@@ -91,7 +91,6 @@ const FlowFour = ({ nextStep, userInfo }) => {
                     btnsize="md"
                     type="submit"
                     text="Next"
-                    btntype="submmit"
                     disabled={isSubmitting}
                   >
                     <p className="font-normal">Next</p>

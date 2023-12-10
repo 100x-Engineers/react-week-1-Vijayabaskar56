@@ -5,7 +5,6 @@ import DropDOwn from "../../components/DropDOwn";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { useImperativeHandle } from "react";
 
 function FlowOne({ nextStep, getUserData }) {
   const navigate = useNavigate();
