@@ -7,11 +7,8 @@ import HeaderImg from "../../assets/image-17.png";
 import Arrow from "../../assets/back.svg";
 import AddBanner from "../../assets//material-symbols-add-a-photo-outline.svg";
 import RemoveBanner from "../../assets/cancel.svg";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { useDataContext } from "../context/useFetchDataContext";
 import { createClient } from "@supabase/supabase-js";
-import { v4 as uuidv4 } from "uuid";
 import AvatarUpload from "../../components/AvatharUpload";
 
 const supabase = createClient(
@@ -59,7 +56,7 @@ const EditProfile = () => {
                   console.log(data.data.user);
                   resetForm();
                   setSubmitting(false);
-                  setUser(data.data.user);
+                  // setUser(data.data.user);
                   navigate(-1);
                 })
                 .catch((error) => {

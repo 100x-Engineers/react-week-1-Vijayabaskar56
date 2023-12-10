@@ -4,13 +4,11 @@ import Image from "../../components/Image";
 import UserProfile from "../../assets/user-avatar.svg";
 import { useState, useRef } from "react";
 import Closebtn from "../../assets/cancel.svg";
-import { useAuth } from "../context/Auth";
 import TextareaAutosize from "react-textarea-autosize";
 import { useTweet } from "../context";
-import { useDataContext } from "../context/useFetchDataContext";
 
 const PostTweet = () => {
-  const { users, setTweets } = useDataContext();
+  const { users, setTweets } = useTweet();
   const [charCount, setcharCount] = useState(0);
   const ref = useRef();
   const navigate = useNavigate();
@@ -40,7 +38,6 @@ const PostTweet = () => {
       body: JSON.stringify(payload),
     });
     console.log(res);
-    // postTweet(tweets);
     setTweets(tweets);
     settweet("");
     navigate(-1);

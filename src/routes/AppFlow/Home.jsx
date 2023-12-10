@@ -2,7 +2,6 @@ import { Suspense, useEffect, useState } from "react";
 import { Link, Outlet, useMatch } from "react-router-dom";
 import Image from "../../components/Image";
 import Logo100X from "../../assets/100x-frame.svg";
-import Nav from "./Nav";
 import Profile from "../../assets/group-default.svg";
 import HomeIcon from "../../assets/home-default.svg";
 import Loader from "../../components/Loader";

@@ -58,7 +58,7 @@ export const DataContextProvider = ({ children }) => {
   const fetchUserTweets = async () => {
     setIsLoadingUserTweets(true);
     try {
-      const response = await axios.get(`${appUrl}/tweets/${users.id}}`);
+      const response = await axios.get(`${appUrl}/userTweets`);
       if (response && response.status >= 200 && response.status < 300) {
         console.log(response.data);
         setUserTweets(response.data);
@@ -77,7 +77,7 @@ export const DataContextProvider = ({ children }) => {
     if (token) {
       fetchUser();
       fetchTweets();
-      // fetchUserTweets();
+      fetchUserTweets();
     }
   }, [token]);
 
@@ -95,6 +95,8 @@ export const DataContextProvider = ({ children }) => {
         userTweets,
         isLoadingUserTweets,
         isErrorUserTweets,
+        fetchUser,
+        fetchUserTweets,
       }}
     >
       {children}

@@ -1,35 +1,51 @@
-import { useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useDataContext } from "../../context/useFetchDataContext";
 import { appUrl } from "../../../utils/urls";
+import { useRef, useState } from "react";
+import { useUser } from "../../context/UserContext";
 
-function ReactIcons({ activImg, inactiveImg, value }) {
+function ReactIcons({ activImg, inactiveImg, name, value, tweetId }) {
   const [isActive, setISActive] = useState(false);
-  const { users } = useDataContext();
-  const likeCountRef = useRef(value);
-  const likeCount = useMemo(() => {
-    return likeCountRef.current;
-  }, [likeCountRef]);
-  const clickhandler = async () => {
-    likeCountRef.current = likeCountRef.current + 1;
-    if (likeCount.current % 10 === 0 || null) {
-      const response = await axios.post(`${appUrl}/posts/${users.id}/reposts`);
-      if (response >= 200 && response < 300) {
+  const { users } = useUser();
+  const likeCountRef = useRef(!value ? 0 : value);
+  const clickhandler = async (e) => {
+    if (e.target.name === "like") {
+      const response = await axios.post(`${appUrl}/posts/${tweetId}/like`, {
+        likedBy: users.id,
+      });
+      if (response.status >= 200 && response.status < 300) {
+        isActive
+          ? (likeCountRef.current = likeCountRef.current - 1)
+          : (likeCountRef.current = likeCountRef.current + 1);
         console.log(response);
+        setISActive(!isActive);
       }
+    } else if (e.target.name === "retweet") {
+      isActive
+        ? (likeCountRef.current = likeCountRef.current - 1)
+        : (likeCountRef.current = likeCountRef.current + 1);
+      const response = await axios.post(`${appUrl}/posts/${tweetId}/reposts`, {
+        userId: users.id,
+        type: isActive,
+      });
+      if (response.status >= 200 && response.status < 300) {
+        console.log(response);
+        setISActive(!isActive);
+      }
+    } else if (e.target.name === "comment" || e.target.name === "reach") {
+      console.log("comment");
     }
-    setISActive(!isActive);
   };
   return (
     <>
       <div className="flex">
         <img
+          name={name}
           src={isActive ? inactiveImg : activImg}
           alt="icon"
-          onClick={() => clickhandler()}
+          onClick={(e) => clickhandler(e)}
         />
-        <p className="px-1 text-neutral500">{value}</p>
+        <p className="px-1 text-neutral500">{likeCountRef.current}</p>
       </div>
     </>
   );
@@ -41,4 +57,6 @@ ReactIcons.propTypes = {
   activImg: PropTypes.string,
   inactiveImg: PropTypes.string,
   value: PropTypes.string,
+  name: PropTypes.string,
+  tweetId: PropTypes.string,
 };

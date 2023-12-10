@@ -1,13 +1,10 @@
 import { Link } from "react-router-dom";
 import Button from "../../../components/Button";
-import { useDataContext } from "../../context/useFetchDataContext";
 import Loader from "../../../components/Loader";
+import { useUser } from "../../context/UserContext";
 
 const ProfileHeader = () => {
-  const { users, isLoadingUser } = useDataContext();
-  if (users) {
-    console.log(users);
-  }
+  const { users, isLoadingUser } = useUser();
   const DatesToString = (date) => {
     const monthArray = [
       "January",
@@ -56,7 +53,7 @@ const ProfileHeader = () => {
           />
           <header>
             <section className="inline-flex flex-col items-end justify-center gap-2 ">
-              <div className="flex items-center justify-between w-full px-3">
+              <div className="flex items-center justify-between px-3 gap-96">
                 <img
                   src="../../public/images/user-avatar.svg"
                   alt="profileIcon"

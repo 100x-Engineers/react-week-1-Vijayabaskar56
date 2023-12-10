@@ -73,4 +73,5 @@ export default FlowTwo;
 
 FlowTwo.propTypes = {
   nextStep: PropTypes.func.isRequired,
+  userInfo: PropTypes.object.isRequired,
 };
