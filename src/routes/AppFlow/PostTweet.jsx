@@ -5,21 +5,20 @@ import UserProfile from "../../assets/user-avatar.svg";
 import { useState, useRef } from "react";
 import Closebtn from "../../assets/cancel.svg";
 import TextareaAutosize from "react-textarea-autosize";
-import { useTweet } from "../context";
+import { useUser } from "../context/UserContext";
 
 const PostTweet = () => {
-  const { users, setTweets } = useTweet();
   const [charCount, setcharCount] = useState(0);
-  const ref = useRef();
   const navigate = useNavigate();
-  const { tweet, postTweet } = useTweet();
+  // const { tweet, postTweet } = useTweet();
   const [tweets, settweet] = useState(" ");
-
+  const { users } = useUser();
   const handleChange = (e) => {
     let count = e.target.value;
-    settweet(tweets);
-    console.log(tweets);
     setcharCount(count.length);
+    console.log(e.target.value);
+    let tweet = e.target.value;
+    settweet(tweet);
   };
 
   const handleSubmit = async (e) => {
@@ -38,14 +37,13 @@ const PostTweet = () => {
       body: JSON.stringify(payload),
     });
     console.log(res);
-    setTweets(tweets);
     settweet("");
     navigate(-1);
   };
 
   return (
     <>
-      <div className="h-screen ">
+      <div className="h-screen bg-black">
         <form onSubmit={handleSubmit} className="bg-black">
           <header className="flex justify-between px-4 py-3 ">
             <Link to="/" className="inline-flex items-center">
@@ -62,7 +60,6 @@ const PostTweet = () => {
                   src={UserProfile}
                   alt="user-avatar"
                   className="relative top-0 h-fit mg-auto "
-                  ref={ref}
                 />
               </div>
               <div className="">
@@ -78,7 +75,7 @@ const PostTweet = () => {
                   }`}
                   placeholder="What's happening?!"
                   cacheMeasurements
-                  value={tweet}
+                  // value={tweet}
                   onChange={handleChange}
                 />
               </div>

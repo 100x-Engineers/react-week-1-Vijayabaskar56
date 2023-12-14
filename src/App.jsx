@@ -18,9 +18,33 @@ import Error from "./components/Error.jsx";
 import Home from "./routes/AppFlow/Home.jsx";
 import Nav from "./routes/AppFlow/Nav.jsx";
 import ErrorBountry from "./components/ErrorBountry.jsx";
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { appUrl } from "./utils/urls.js";
+import { UserProvider } from "./routes/context/UserContext.js";
 
 function App() {
+  const [users, setUser] = useState();
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const [isErrorUser, setIsErrorUser] = useState("");
+
+  const fetchUser = async () => {
+    setIsLoadingUser(true);
+    try {
+      const response = await axios.get(`${appUrl}/users`);
+      if (response && response.status >= 200 && response.status < 300) {
+        const { user } = response.data;
+        setUser(user);
+        setIsLoadingUser(false);
+      } else {
+        setIsErrorUser(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsErrorUser(error);
+    }
+  };
+
   const ProtectedRoutes = ({ children }) => {
     const { token } = useAuth();
     if (!token) {
@@ -29,6 +53,10 @@ function App() {
       return children;
     }
   };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const route = createBrowserRouter(
     createRoutesFromElements(
@@ -43,11 +71,7 @@ function App() {
           errorElement={createPortal(<Error />, document.body)}
         >
           <Route path="/" element={<Nav />} errorElement={<ErrorPage />}>
-            <Route
-              path="foryou"
-              element={<Feed />}
-              errorElement={<ErrorPage />}
-            />
+            <Route path="" element={<Feed />} errorElement={<ErrorPage />} />
             <Route
               path="following"
               element={<Feed />}
@@ -55,8 +79,8 @@ function App() {
             />
           </Route>
           <Route
-            path="profile"
-            element={<Profile />}
+            path=":username"
+            element={<Profile users={users} />}
             errorElement={<ErrorPage />}
           />
         </Route>
@@ -82,7 +106,18 @@ function App() {
       <>
         <ErrorBountry fallback={<Error />}>
           <AuthProvider>
-            <RouterProvider router={route} />
+            <UserProvider
+              value={{
+                users,
+                isLoadingUser,
+                isErrorUser,
+                setUser,
+                setIsErrorUser,
+                setIsLoadingUser,
+              }}
+            >
+              <RouterProvider router={route} />
+            </UserProvider>
           </AuthProvider>
         </ErrorBountry>
       </>

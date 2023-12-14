@@ -2,43 +2,46 @@ import { Link } from "react-router-dom";
 import Button from "../../../components/Button";
 import Loader from "../../../components/Loader";
 import { useUser } from "../../context/UserContext";
+import { DatesToString, getCount } from "../../../utils/utils";
 
 const ProfileHeader = () => {
   const { users, isLoadingUser } = useUser();
-  const DatesToString = (date) => {
-    const monthArray = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    let dateArr;
-    if (date.length > 10) {
-      const dateTrimmed = date.slice(0, 11);
-      dateArr = dateTrimmed.split("-");
-    } else {
-      dateArr = date.split("-");
-    }
-    const month = monthArray[dateArr[1]];
+  console.log(users.profilePicUrl);
+  console.log(DatesToString(users.createdAt));
+  // const DatesToString = (date) => {
+  //   const monthArray = [
+  //     "January",
+  //     "February",
+  //     "March",
+  //     "April",
+  //     "May",
+  //     "June",
+  //     "July",
+  //     "August",
+  //     "September",
+  //     "October",
+  //     "November",
+  //     "December",
+  //   ];
+  //   let dateArr;
+  //   if (date.length > 10) {
+  //     const dateTrimmed = date.slice(0, 11);
+  //     dateArr = dateTrimmed.split("-");
+  //   } else {
+  //     dateArr = date.split("-");
+  //   }
+  //   const month = monthArray[dateArr[1]];
 
-    return `Joined ${month} ${dateArr[0]}`;
-  };
+  //   return `Joined ${month} ${dateArr[0]}`;
+  // };
 
-  const getCount = (arr) => {
-    if (arr.length > 1000) {
-      return `${(arr.length / 1000).toFixed(1)}k`;
-    } else {
-      return arr.length;
-    }
-  };
+  // const getCount = (arr) => {
+  //   if (arr.length > 1000) {
+  //     return `${(arr.length / 1000).toFixed(1)}k`;
+  //   } else {
+  //     return arr.length;
+  //   }
+  // };
 
   return (
     <>
@@ -52,10 +55,10 @@ const ProfileHeader = () => {
             className="flex-shrink-0 w-screen h-h02"
           />
           <header>
-            <section className="inline-flex flex-col items-end justify-center gap-2 ">
-              <div className="flex items-center justify-between px-3 gap-96">
+            <section className="inline-flex flex-col items-end justify-center w-full gap-2 ">
+              <div className="flex items-center justify-between w-full px-3">
                 <img
-                  src="../../public/images/user-avatar.svg"
+                  src={users.profilePicUrl}
                   alt="profileIcon"
                   className="w-12 h-12 border-2 border-solid rounded-full border-neutral1000"
                 />

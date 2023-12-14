@@ -46,7 +46,7 @@ const Nav = () => {
                 className={`${base} ${isActive ? seleted : null}`}
                 onClick={() => {
                   setIsActive(!isActive);
-                  navigate("foryou");
+                  navigate("");
                 }}
               >
                 For You

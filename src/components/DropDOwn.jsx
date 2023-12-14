@@ -50,13 +50,13 @@ const DropDOwn = ({ name, ...rest }) => {
           // value={value}
           {...rest}
         >
-          <option value selected disabled />
-          <option value="">
+          <option value selected disabled className="bg-neutral-900" />
+          <option value="" className="bg-neutral-900">
             {name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}
           </option>
           {options.map((option) => {
             return (
-              <option key={option} value={option}>
+              <option key={option} className="bg-neutral-900" value={option}>
                 {option}
               </option>
             );

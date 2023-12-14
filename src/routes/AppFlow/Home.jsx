@@ -7,7 +7,6 @@ import HomeIcon from "../../assets/home-default.svg";
 import Loader from "../../components/Loader";
 import TrandingPage from "./TrendingPage";
 import Header from "./componenets/Header";
-
 const Home = () => {
   const isHomeActive = useMatch("/");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -16,7 +15,6 @@ const Home = () => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -36,7 +34,7 @@ const Home = () => {
           </header>
         )}
 
-        <div className="flex w-screen h-screen re bg-neutral1000 text-neutral50">
+        <div className="flex w-screen h-screen re bg-neutral1000 text-neutral50 overflow-hidden scroll-smooth hide-scrollbar ">
           {windowWidth > 760 && <Header />}
           <section className="flex w-full overflow-scroll scroll-m-0 scroll-smooth">
             <div className="w-full border-r-2 border-gray-800 md:max-w-xl">

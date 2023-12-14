@@ -10,6 +10,8 @@ import RemoveBanner from "../../assets/cancel.svg";
 import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
 import AvatarUpload from "../../components/AvatharUpload";
+import { useState } from "react";
+import { useUser } from "../context/UserContext";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -18,6 +20,7 @@ const supabase = createClient(
 
 const EditProfile = () => {
   const [selectimage, setSelectImage] = useState(null);
+  const { users, setUser } = useUser();
   // const [iimageURLs, setImageURls] = useState([]);
   const navigate = useNavigate();
 
@@ -46,7 +49,7 @@ const EditProfile = () => {
               setSubmitting(true);
               axios
                 .post("http://localhost:3000/editProfile", {
-                  userId: 49,
+                  userId: users.id,
                   displayName: values.name,
                   location: values.location,
                   website: values.website,
@@ -56,7 +59,7 @@ const EditProfile = () => {
                   console.log(data.data.user);
                   resetForm();
                   setSubmitting(false);
-                  // setUser(data.data.user);
+                  setUser(data.data.user);
                   navigate(-1);
                 })
                 .catch((error) => {
@@ -95,7 +98,7 @@ const EditProfile = () => {
                   <header className="flex items-center justify-between px-4 py-3">
                     <div className="flex gap-5">
                       {/* Back arrow */}
-                      <Link to="">
+                      <Link to="/profile">
                         <img src={Arrow} alt="back-arrow-icon" />
                       </Link>
                       <p>Edit Profile</p>
@@ -131,18 +134,12 @@ const EditProfile = () => {
                       className="w-screen h-52"
                     />
                   </div>
-                  <AvatarUpload />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="fileInput"
-                    className="hidden"
-                    name="myImage"
-                    multiple={false}
-                    onChange={(e) => {
-                      onImageChange(e);
-                    }}
+                  <AvatarUpload
+                    url={
+                      "https://doeoysbmfjhppaimcttr.supabase.co/storage/v1/object/public/avathars/user-avatar.svg"
+                    }
                   />
+
                   <InputField
                     name="name"
                     type="text"

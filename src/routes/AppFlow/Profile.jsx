@@ -15,28 +15,6 @@ const Profile = () => {
   const [userTweets, setUserTweets] = useState();
   const [isLoadingUserTweets, setIsLoadingUserTweets] = useState(true);
   const [isErrorUserTweets, setIsErrorUserTweets] = useState("");
-
-  const [users, setUser] = useState();
-  const [isLoadingUser, setIsLoadingUser] = useState(true);
-  const [isErrorUser, setIsErrorUser] = useState("");
-
-  const fetchUser = async () => {
-    setIsLoadingUser(true);
-    try {
-      const response = await axios.get(`${appUrl}/users`);
-      if (response && response.status >= 200 && response.status < 300) {
-        const { user } = response.data;
-        setUser(user);
-        setIsLoadingUser(false);
-      } else {
-        setIsErrorUser(response.message);
-      }
-    } catch (error) {
-      console.log(error);
-      setIsErrorUser(error);
-    }
-  };
-
   const fetchUserTweets = async () => {
     setIsLoadingUserTweets(true);
     try {
@@ -69,7 +47,6 @@ const Profile = () => {
 
   useEffect(() => {
     fetchUserTweets();
-    fetchUser();
   }, []);
 
   return (
@@ -77,9 +54,7 @@ const Profile = () => {
       <div className="flex w-fit md:items-center md:justify-center ">
         <div className="bg-black text-neutral50">
           <Suspense fallback={<Loader />}>
-            <UserProvider value={{ users, isLoadingUser, isErrorUser }}>
-              <ProfileHeader />
-            </UserProvider>
+            <ProfileHeader />
           </Suspense>
           <UserTweetProvider
             value={{
@@ -99,6 +74,7 @@ const Profile = () => {
                   <div key={tweet.id}>
                     <Tweet
                       tweetId={tweet.id}
+                      proilePicUrl={tweet.user.profilePicUrl}
                       displayName={tweet.user.displayName}
                       userName={tweet.user.username}
                       postedAt={calculateTimePassed(tweet.createdAt)}

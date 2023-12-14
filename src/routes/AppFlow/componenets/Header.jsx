@@ -13,10 +13,7 @@ const Header = () => {
     <header className="inline-flex flex-col justify-between p-5 border-r-2 border-gray-800">
       <div className="flex items-center justify-center gap-4 w-fit md:flex-col bg-neutral1000">
         <Image src={Logo100X} alt="100x-Logo" size="w-14" />
-        <Link
-          to="/foryou"
-          className={isHomeActive ? "bg-transparent/60" : null}
-        >
+        <Link to="/" className={isHomeActive ? "bg-transparent/60" : null}>
           <div className="inline-flex items-center justify-start h-12 gap-5 px-5 py-3">
             <Image src={HomeIcon} alt="home-icon" />
             {window.innerWidth > 1264 && (

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const TweetHeader = ({
   name = "VJ",
@@ -10,7 +11,9 @@ const TweetHeader = ({
     <>
       <div className="inline-flex items-center self-stretch justify-start gap-px w-fit">
         <p className="text-base font-medium">
-          {name}
+          <Link to={userId} className="hover:underline">
+            {name}
+          </Link>
           <span className="inline text-base font-normal text-neutral500 w-fit">
             {`@${userId} • ${time}`}
           </span>
