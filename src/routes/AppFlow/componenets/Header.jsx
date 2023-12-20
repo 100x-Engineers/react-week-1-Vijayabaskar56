@@ -10,7 +10,9 @@ import { useUser } from "../../context/UserContext";
 const Header = () => {
   const isHomeActive = useMatch("/");
   const navigator = useNavigate();
-  const users = useLoaderData();
+  // const users = useLoaderData();
+  const { users } = useUser();
+
   const { id } = users;
   return (
     <header className="inline-flex flex-col justify-between p-5 border-r-2 border-gray-800">

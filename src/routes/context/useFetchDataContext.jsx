@@ -43,7 +43,6 @@ export const DataContextProvider = ({ children }) => {
     try {
       const response = await axios.get(`${appUrl}/feed`);
       if (response && response.status >= 200 && response.status < 300) {
-        console.log(response.data);
         setTweets(response.data);
         setIsLoadingtweets(false);
       } else {

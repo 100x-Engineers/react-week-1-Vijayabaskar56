@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
+import { verificationCode } from "../../utils/api";
 
 const FlowThree = ({ nextStep, userInfo }) => {
   return (
@@ -12,16 +13,12 @@ const FlowThree = ({ nextStep, userInfo }) => {
           // validate=
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
+            const payload = {
+              email: userInfo.email,
+            };
             try {
-              await fetch("http://localhost:3000/verificationCode", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
-              })
-                .then((res) => res.json())
-                .then((res) => console.log(res))
+              verificationCode(payload)
+                .then((data) => console.log(data))
                 .then(() => nextStep())
                 .catch((err) => console.log(err));
             } catch (error) {

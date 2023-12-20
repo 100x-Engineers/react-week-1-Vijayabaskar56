@@ -3,6 +3,7 @@ import { useProfile } from "../context/login";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { registeration } from "../../utils/api";
 
 const FlowTwo = ({ nextStep, userInfo }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -11,17 +12,9 @@ const FlowTwo = ({ nextStep, userInfo }) => {
   const handleClick = async () => {
     try {
       setIsSubmitting(true);
-      await fetch("http://localhost:3000/registration", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userInfo),
-      })
-        .then((res) => res.json())
-        .then((res) =>
-          res.status == 200 ? nextStep() : new Error(res.message)
-        );
+      await registeration(userInfo).then((data) =>
+        data.status == 200 ? nextStep() : new Error(data.message)
+      );
       setIsSubmitting(false);
       nextStep();
     } catch (err) {

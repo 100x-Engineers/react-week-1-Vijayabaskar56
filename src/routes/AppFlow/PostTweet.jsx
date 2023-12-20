@@ -6,6 +6,7 @@ import { useState, useRef } from "react";
 import Closebtn from "../../assets/cancel.svg";
 import TextareaAutosize from "react-textarea-autosize";
 import { useUser } from "../context/UserContext";
+import { postTweet } from "../../utils/api";
 
 const PostTweet = () => {
   const [charCount, setcharCount] = useState(0);
@@ -27,15 +28,7 @@ const PostTweet = () => {
       content: tweets,
       userId: users.id,
     };
-
-    const res = await fetch("http://localhost:3000/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    console.log(res);
+    postTweet(payload);
     settweet("");
     navigate(-1);
   };
@@ -48,7 +41,7 @@ const PostTweet = () => {
             <Link to="/" className="inline-flex items-center">
               <img src={Closebtn} alt="cancel-icon" />
             </Link>
-            <Button varient="bluebtn" type="submit">
+            <Button buttonsize="sm" varient="bluebtn" type="submit">
               Post
             </Button>
           </header>

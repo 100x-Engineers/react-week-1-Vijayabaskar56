@@ -7,7 +7,7 @@ import { useAuth } from "../context/Auth";
 
 function FlowLogin() {
   //   const { getProfileDetais } = useProfile();
-  const { setToken, token, user, setUser } = useAuth();
+  const { setToken, token } = useAuth();
   const validation = object({
     email: string("Invalid Entry")
       .required("Name Required!")
@@ -30,9 +30,6 @@ function FlowLogin() {
               .then((response) => {
                 console.log(response, response.accessToken, response.userid);
                 // Assuming AuthService returns an object with a data property
-                if (response.userid) {
-                  setUser(response.userid);
-                }
                 if (response.accessToken) {
                   setToken(response.accessToken);
                 } else {
@@ -43,7 +40,7 @@ function FlowLogin() {
                 console.error(error);
               })
               .finally(() => {
-                console.log("hi from login", token, user);
+                console.log("hi from login", token);
                 setSubmitting(false);
               });
           } catch (error) {

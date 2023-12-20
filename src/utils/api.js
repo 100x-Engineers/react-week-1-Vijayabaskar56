@@ -19,12 +19,6 @@ export const AuthService = async (email, password) => {
   }
 };
 
-export const Registration = async (userInfo) => {
-  return await axios.post(`${URL}/registration`, {
-    userInfo,
-  });
-};
-
 export const VerificationCode = async (code) => {
   return await axios.post(`${URL}/verificationCode`, {
     code,
@@ -32,15 +26,15 @@ export const VerificationCode = async (code) => {
 };
 
 export const password = async (password) => {
-  return await axios.post(`${URL}/password`, {
-    password,
-  });
+  return await axios.post(`${URL}/password`, password);
+};
+
+export const verificationCode = async (code) => {
+  return await axios.post(`${URL}/verificationcode`, code);
 };
 
 export const postTweet = async (tweet) => {
-  return await axios.post(`${URL}/posts`, {
-    tweet,
-  });
+  return await axios.post(`${URL}/posts`, tweet);
 };
 
 export const followUser = async (userId, followedId) => {
@@ -51,7 +45,9 @@ export const followUser = async (userId, followedId) => {
 };
 
 export const editProfile = async (userInfo) => {
-  return await axios.post(`${URL}/editProfile`, {
-    userInfo,
-  });
+  return await axios.post(`${URL}/editProfile`, userInfo);
+};
+
+export const registeration = async (userInfo) => {
+  return await axios.post(`${URL}/registration`, userInfo);
 };

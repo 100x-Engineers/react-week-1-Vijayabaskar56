@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
-import { useAuth } from "../context/Auth";
+import { useAuth } from "../context/Auth.js";
+import { password } from "../../utils/api";
 
 const FlowFour = ({ nextStep, userInfo }) => {
   const navigate = useNavigate();
-  const { setToken, setUser } = useAuth();
+  const { setToken } = useAuth();
 
   return (
     <>
@@ -21,25 +22,12 @@ const FlowFour = ({ nextStep, userInfo }) => {
               email: userInfo.email,
             };
             try {
-              await fetch("http://localhost:3000/password", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-              })
-                .then((response) => response.json())
-                .then((response) => {
-                  console.log(response, response.authToken);
+              await password(payload)
+                .then((data) => {
+                  console.log(data, data.data.accessToken);
                   // Assuming AuthService returns an object with a data property
-                  if (
-                    response &&
-                    response.message &&
-                    response.accessToken &&
-                    response.userid
-                  ) {
-                    setToken(response.accessToken);
-                    setUser(response.userid);
+                  if (data && data.message && data.accessToken && data.userid) {
+                    setToken(data.accessToken);
                   } else {
                     throw new Error("Authentication failed");
                   }
