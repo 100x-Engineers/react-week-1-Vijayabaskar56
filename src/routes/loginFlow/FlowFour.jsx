@@ -27,7 +27,7 @@ const FlowFour = ({ nextStep, userInfo }) => {
                   console.log(data, data.data.accessToken);
                   // Assuming AuthService returns an object with a data property
                   if (data.data.accessToken && data.data.userid) {
-                    setToken(data.accessToken);
+                    setToken(data.data.accessToken);
                   } else {
                     throw new Error("Authentication failed");
                   }
@@ -38,7 +38,7 @@ const FlowFour = ({ nextStep, userInfo }) => {
                 .finally(() => {
                   console.log("hi from login");
                   setSubmitting(false);
-                  navigate("/");
+                  // navigate("/");
                 });
             } catch (error) {
               console.error(error);
