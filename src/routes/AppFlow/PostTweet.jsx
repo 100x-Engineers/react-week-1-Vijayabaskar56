@@ -16,7 +16,6 @@ const PostTweet = () => {
   const handleChange = (e) => {
     let count = e.target.value;
     setcharCount(count.length);
-    console.log(e.target.value);
     let tweet = e.target.value;
     settweet(tweet);
   };

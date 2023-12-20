@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const URL = "http://localhost:3000/";
+const URL = import.meta.VITE_APP_API_URL;
 
 export const AuthService = async (email, password) => {
   try {
-    const response = await axios.post(`${URL}login`, {
+    const response = await axios.post(`${URL}/login`, {
       email,
       password,
     });
@@ -18,25 +18,32 @@ export const AuthService = async (email, password) => {
 };
 
 export const Registration = async (userInfo) => {
-  await axios.post(`${URL}/registration`, {
+  return await axios.post(`${URL}/registration`, {
     userInfo,
   });
 };
 
 export const VerificationCode = async (code) => {
-  await axios.post(`${URL}/verificationCode`, {
+  return await axios.post(`${URL}/verificationCode`, {
     code,
   });
 };
 
 export const password = async (password) => {
-  await axios.post(`${URL}/password`, {
+  return await axios.post(`${URL}/password`, {
     password,
   });
 };
 
 export const postTweet = async (tweet) => {
-  await axios.post(`${URL}/posts`, {
+  return await axios.post(`${URL}/posts`, {
     tweet,
+  });
+};
+
+export const followUser = async (userId, followedId) => {
+  return await axios.post(`${URL}/followAction`, {
+    userId,
+    followedId,
   });
 };

@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Formik } from "formik";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import { object, string } from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import HeaderImg from "../../assets/image-17.png";
 import Arrow from "../../assets/back.svg";
 import AddBanner from "../../assets//material-symbols-add-a-photo-outline.svg";
@@ -22,7 +22,7 @@ const EditProfile = () => {
   const [selectimage, setSelectImage] = useState(null);
   const { users, setUser } = useUser();
   // const [iimageURLs, setImageURls] = useState([]);
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const validation = object({
     name: string("Invalid Entry")
@@ -56,7 +56,6 @@ const EditProfile = () => {
                   bio: values.bio,
                 })
                 .then((data) => {
-                  console.log(data.data.user);
                   resetForm();
                   setSubmitting(false);
                   setUser(data.data.user);
@@ -98,9 +97,9 @@ const EditProfile = () => {
                   <header className="flex items-center justify-between px-4 py-3">
                     <div className="flex gap-5">
                       {/* Back arrow */}
-                      <Link to="/profile">
+                      <button onClick={() => history.push(`:${users.id}`)}>
                         <img src={Arrow} alt="back-arrow-icon" />
-                      </Link>
+                      </button>
                       <p>Edit Profile</p>
                     </div>
                     <Button
@@ -144,9 +143,9 @@ const EditProfile = () => {
                     name="name"
                     type="text"
                     placeholder="Name"
+                    defaultvalue={users.displayName}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.name}
                     disabled={isSubmitting}
                     errors={errors.name}
                     touched={touched.name}
@@ -155,9 +154,11 @@ const EditProfile = () => {
                     name="location"
                     type="location"
                     placeholder="location"
+                    defaultvalue={
+                      users.location === null ? " " : users.location
+                    }
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.location}
                     disabled={isSubmitting}
                     errors={errors.location}
                     touched={touched.location}
@@ -166,9 +167,9 @@ const EditProfile = () => {
                     name="website"
                     type="website"
                     placeholder="Website"
+                    defaultvalue={users.website === null ? " " : users.website}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.website}
                     disabled={isSubmitting}
                     errors={errors.website}
                     touched={touched.website}
@@ -185,12 +186,10 @@ const EditProfile = () => {
                         name="bio"
                         rows="3"
                         cols="40"
+                        defaultvalue={users.bio === null ? " " : users.bio}
                         onChange={handleChange}
                         className="w-full bg-transparent text-neutral-50 placeholder:text-neutral-500 focus:outline-none"
                         placeholder="What's happening?!"
-                        defaultValue={
-                          "Digital Goodies Team - Web & Mobile UI/UX development; Graphics; Illustrations\n    "
-                        }
                       />
                     </fieldset>
                     <ErrorMessage

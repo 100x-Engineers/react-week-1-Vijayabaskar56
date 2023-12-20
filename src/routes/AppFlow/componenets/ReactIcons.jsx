@@ -3,10 +3,12 @@ import axios from "axios";
 import { appUrl } from "../../../utils/urls";
 import { useRef, useState } from "react";
 import { useUser } from "../../context/UserContext";
+import { useLoaderData } from "react-router-dom";
 
 function ReactIcons({ activImg, inactiveImg, name, value, tweetId }) {
   const [isActive, setISActive] = useState(false);
   const { users } = useUser();
+  console.log(users)
   const likeCountRef = useRef(!value ? 0 : value);
   const clickhandler = async (e) => {
     if (e.target.name === "like") {

@@ -22,6 +22,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { appUrl } from "./utils/urls.js";
 import { UserProvider } from "./routes/context/UserContext.js";
+import { loader as usersLoader } from "./routes/context/useGetUser.js";
+import { loader as tweetLoader } from "./routes/context/tweetloader.js";
+import { loader as userTweetLoader } from "./routes/context/userTweetloader.js";
 
 function App() {
   const [users, setUser] = useState();
@@ -40,8 +43,18 @@ function App() {
         setIsErrorUser(response.message);
       }
     } catch (error) {
-      console.log(error);
-      setIsErrorUser(error);
+      // setIsErrorUser("Error Fecting User Data");
+    }
+  };
+
+  const loader = async () => {
+    const response = await axios.get(`${appUrl}/users`);
+    if (response && response.status >= 200 && response.status < 300) {
+      const { user } = response.data;
+      return user;
+    } else {
+      const { message } = response;
+      return message;
     }
   };
 
@@ -63,6 +76,7 @@ function App() {
       <>
         <Route
           path="/"
+          loader={loader}
           element={
             <ProtectedRoutes>
               <Home />
@@ -71,32 +85,46 @@ function App() {
           errorElement={createPortal(<Error />, document.body)}
         >
           <Route path="/" element={<Nav />} errorElement={<ErrorPage />}>
-            <Route path="" element={<Feed />} errorElement={<ErrorPage />} />
+            <Route
+              path=""
+              element={<Feed />}
+              loader={tweetLoader}
+              errorElement={<ErrorPage />}
+            />
             <Route
               path="following"
+              loader={tweetLoader}
               element={<Feed />}
               errorElement={<ErrorPage />}
             />
           </Route>
           <Route
-            path=":username"
-            element={<Profile users={users} />}
+            path=":id"
+            loader={usersLoader}
+            element={<Profile />}
+            errorElement={<ErrorPage />}
+          >
+            <Route
+              path=""
+              loader={userTweetLoader}
+              element={<Feed />}
+              errorElement={<ErrorPage />}
+            ></Route>
+          </Route>
+          <Route
+            path="editprofile"
+            element={<EditProfile />}
+            errorElement={<ErrorPage />}
+          />
+          <Route
+            path="postTweet"
+            element={<PostTweet />}
             errorElement={<ErrorPage />}
           />
         </Route>
 
         {/* <Route path="home" element={<Home />} errorElement={<ErrorPage />}>
           </Route> */}
-        <Route
-          path="editprofile"
-          element={<EditProfile />}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="postTweet"
-          element={<PostTweet />}
-          errorElement={<ErrorPage />}
-        />
       </>
     )
   );

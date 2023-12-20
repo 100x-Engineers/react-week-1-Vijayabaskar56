@@ -1,12 +1,13 @@
 // import Tweet from "./Tweet";
 import { useTweet } from "../context/index";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import Tweet from "./Tweet";
 import Loader from "../../components/Loader";
 
 const Feed = () => {
-  const { tweets, isLoadingtweets } = useTweet();
-  console.log(tweets);
+  // const { tweets, isLoadingtweets } = useTweet();
+  const tweet = useLoaderData();
+  console.log(tweet);
   const calculateTimePassed = (dateString) => {
     const currentDate = new Date();
     const givenDate = new Date(dateString);
@@ -22,24 +23,21 @@ const Feed = () => {
   return (
     <>
       <div className="bg-neutral1000 text-neutral50">
-        {isLoadingtweets ? (
-          <Loader />
-        ) : (
-          tweets.map((tweet) => (
-            <div key={tweet.id}>
-              {console.log(tweet, tweet.likes, tweet.reposts)}
-              <Tweet
-                tweetId={tweet.id}
-                displayName={tweet.user.displayName}
-                userName={tweet.user.username}
-                postedAt={calculateTimePassed(tweet.createdAt)}
-                content={tweet.content}
-                likeCount={tweet.likes.length}
-                retweetCount={tweet.reposts.length}
-              />
-            </div>
-          ))
-        )}
+        {tweet.map((tweet) => (
+          <div key={tweet.id}>
+            <Tweet
+              userId={tweet.userId}
+              tweetId={tweet.id}
+              displayName={tweet.user.displayName}
+              userName={tweet.user.username}
+              postedAt={calculateTimePassed(tweet.createdAt)}
+              content={tweet.content}
+              likeCount={tweet.likes.length}
+              retweetCount={tweet.reposts.length}
+              proilePicUrl={tweet.user.profilePicUrl}
+            />
+          </div>
+        ))}
 
         <div className="fixed hidden px-8 py-3 text-center transform -translate-x-1/2 rounded-full left-1/2 bottom-14 w-52 bg-searchbarFill whitespace-nowrap">
           Copied to clipboard.

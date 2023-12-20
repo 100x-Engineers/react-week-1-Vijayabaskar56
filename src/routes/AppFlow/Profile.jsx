@@ -10,17 +10,18 @@ import { UserProvider } from "../context/UserContext";
 import axios from "axios";
 import { Suspense, useEffect, useState } from "react";
 import { appUrl } from "../../utils/urls";
+import { Outlet, useParams } from "react-router-dom";
 
 const Profile = () => {
   const [userTweets, setUserTweets] = useState();
   const [isLoadingUserTweets, setIsLoadingUserTweets] = useState(true);
   const [isErrorUserTweets, setIsErrorUserTweets] = useState("");
+
   const fetchUserTweets = async () => {
     setIsLoadingUserTweets(true);
     try {
       const response = await axios.get(`${appUrl}/userTweets`);
       if (response && response.status >= 200 && response.status < 300) {
-        console.log(response.data);
         setUserTweets(response.data);
         setIsLoadingUserTweets(false);
       } else {
@@ -28,7 +29,6 @@ const Profile = () => {
         // setIsLoadingUserTweets(false);
       }
     } catch (error) {
-      console.log(error);
       setIsErrorUserTweets(true);
     }
   };
@@ -56,7 +56,9 @@ const Profile = () => {
           <Suspense fallback={<Loader />}>
             <ProfileHeader />
           </Suspense>
-          <UserTweetProvider
+          <main className="border-t-2 botder border-neutral-800">
+            <Outlet />
+            {/* <UserTweetProvider
             value={{
               userTweets,
               isLoadingUserTweets,
@@ -66,7 +68,6 @@ const Profile = () => {
               setIsErrorUserTweets,
             }}
           >
-            <main className="border-t-2 botder border-neutral-800">
               {isLoadingUserTweets ? (
                 <Loader />
               ) : (
@@ -85,8 +86,8 @@ const Profile = () => {
                   </div>
                 ))
               )}
-            </main>
-          </UserTweetProvider>
+          </UserTweetProvider> */}
+          </main>
         </div>
       </div>
     </>

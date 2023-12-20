@@ -33,16 +33,13 @@ function AvatarUpload({ url }) {
     if (error) {
       console.error(error);
       return;
-    } else {
-      console.log(data);
-    }
+    } 
   };
 
   const getimage = async () => {
     const publicURL = await supabase.storage
       .from("avathars")
       .getPublicUrl(`avatar_${users.id}.png`);
-    console.log(publicURL);
     const {
       data: { publicUrl },
     } = publicURL;
