@@ -12,6 +12,7 @@ import AvatarUpload from "../../components/AvatharUpload";
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { editProfile } from "../../utils/api";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -39,22 +40,22 @@ const EditProfile = () => {
         <main className="flex flex-col gap-5 px-4 py-3">
           <Formik
             initialValues={{
-              name: "vj-bass",
-              location: "madurai",
-              website: "https://www.google.com",
+              name: "",
+              location: "",
+              website: "",
               bio: " ",
             }}
             validationSchema={validation}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               setSubmitting(true);
-              axios
-                .post("http://localhost:3000/editProfile", {
-                  userId: users.id,
-                  displayName: values.name,
-                  location: values.location,
-                  website: values.website,
-                  bio: values.bio,
-                })
+              const userInfo = {
+                userId: users.id,
+                displayName: values.name,
+                location: values.location,
+                website: values.website,
+                bio: values.bio,
+              };
+              editProfile(userInfo)
                 .then((data) => {
                   resetForm();
                   setSubmitting(false);

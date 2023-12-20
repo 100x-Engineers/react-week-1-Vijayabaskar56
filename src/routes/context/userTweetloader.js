@@ -1,6 +1,6 @@
 import axios from "axios";
-import { appUrl } from "../../utils/urls";
 export const loader = async ({ params }) => {
+  const appUrl = import.meta.env.VITE_APP_API_URL;
   const response = await axios.get(
     `${appUrl}/userTweets/${params ? params.id : null}`
   );

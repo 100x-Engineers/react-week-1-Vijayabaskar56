@@ -5,7 +5,6 @@ import avatarImg from "../assets/user-avatar.svg";
 import AddBanner from "../assets//material-symbols-add-a-photo-outline.svg";
 import { useUser } from "../routes/context/UserContext";
 import axios from "axios";
-import { appUrl } from "../utils/urls";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -17,6 +16,8 @@ function AvatarUpload({ url }) {
   const { users } = useUser();
   const [imageUrl, setImageUrl] = useState(url);
   const [showOverlay, setShowOverlay] = useState(false);
+
+  const appUrl = import.meta.env.VITE_APP_API_URL;
 
   const handleFileInputChange = async (event) => {
     const file = event.target.files[0];
@@ -33,7 +34,7 @@ function AvatarUpload({ url }) {
     if (error) {
       console.error(error);
       return;
-    } 
+    }
   };
 
   const getimage = async () => {
