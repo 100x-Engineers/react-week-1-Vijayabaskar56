@@ -3,7 +3,7 @@ import { object, string } from "yup";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import { AuthService } from "../../services/AuthService";
-import { useAuth } from "../context/Auth";
+import { useAuth } from "../context/Auth.js";
 
 function FlowLogin() {
   //   const { getProfileDetais } = useProfile();

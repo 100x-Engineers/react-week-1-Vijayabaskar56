@@ -26,7 +26,7 @@ const FlowFour = ({ nextStep, userInfo }) => {
                 .then((data) => {
                   console.log(data, data.data.accessToken);
                   // Assuming AuthService returns an object with a data property
-                  if (data && data.message && data.accessToken && data.userid) {
+                  if (data.data.accessToken && data.data.userid) {
                     setToken(data.accessToken);
                   } else {
                     throw new Error("Authentication failed");
@@ -38,7 +38,7 @@ const FlowFour = ({ nextStep, userInfo }) => {
                 .finally(() => {
                   console.log("hi from login");
                   setSubmitting(false);
-                  navigate("/foryou");
+                  navigate("/");
                 });
             } catch (error) {
               console.error(error);
