@@ -2,7 +2,6 @@ import { ErrorMessage, Field, Formik } from "formik";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 import { object, string } from "yup";
-import { useHistory } from "react-router-dom";
 import HeaderImg from "../../assets/image-17.png";
 import Arrow from "../../assets/back.svg";
 import AddBanner from "../../assets//material-symbols-add-a-photo-outline.svg";
@@ -12,6 +11,7 @@ import { createClient } from "@supabase/supabase-js";
 import AvatarUpload from "../../components/AvatharUpload";
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -22,7 +22,7 @@ const EditProfile = () => {
   const [selectimage, setSelectImage] = useState(null);
   const { users, setUser } = useUser();
   // const [iimageURLs, setImageURls] = useState([]);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const validation = object({
     name: string("Invalid Entry")
@@ -97,7 +97,7 @@ const EditProfile = () => {
                   <header className="flex items-center justify-between px-4 py-3">
                     <div className="flex gap-5">
                       {/* Back arrow */}
-                      <button onClick={() => history.push(`:${users.id}`)}>
+                      <button onClick={() => navigate(-1)}>
                         <img src={Arrow} alt="back-arrow-icon" />
                       </button>
                       <p>Edit Profile</p>
