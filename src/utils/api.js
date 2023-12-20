@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const URL = import.meta.VITE_APP_API_URL;
+const URL = import.meta.env.VITE_APP_API_URL;
+
+console.log(URL);
 
 export const AuthService = async (email, password) => {
   try {
@@ -45,5 +47,11 @@ export const followUser = async (userId, followedId) => {
   return await axios.post(`${URL}/followAction`, {
     userId,
     followedId,
+  });
+};
+
+export const editProfile = async (userInfo) => {
+  return await axios.post(`${URL}/editProfile`, {
+    userInfo,
   });
 };

@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import axios from "axios";
-import { appUrl } from "../../../utils/urls";
 import { useRef, useState } from "react";
 import { useUser } from "../../context/UserContext";
 import { useLoaderData } from "react-router-dom";
@@ -8,9 +7,10 @@ import { useLoaderData } from "react-router-dom";
 function ReactIcons({ activImg, inactiveImg, name, value, tweetId }) {
   const [isActive, setISActive] = useState(false);
   const { users } = useUser();
-  console.log(users)
+  console.log(users);
   const likeCountRef = useRef(!value ? 0 : value);
   const clickhandler = async (e) => {
+    const appUrl = import.meta.env.VITE_APP_API_URL;
     if (e.target.name === "like") {
       const response = await axios.post(`${appUrl}/posts/${tweetId}/like`, {
         likedBy: users.id,

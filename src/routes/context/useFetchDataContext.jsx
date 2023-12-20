@@ -3,8 +3,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./Auth";
 import axios from "axios";
 
-import { appUrl } from "../../utils/urls";
-
 export const DataContext = createContext({});
 
 export const DataContextProvider = ({ children }) => {
@@ -23,6 +21,7 @@ export const DataContextProvider = ({ children }) => {
   const { token } = useAuth();
 
   const fetchUser = async () => {
+    const appUrl = import.meta.env.VITE_APP_API_URL;
     setIsLoadingUser(true);
     try {
       const response = await axios.get(`${appUrl}/users`);

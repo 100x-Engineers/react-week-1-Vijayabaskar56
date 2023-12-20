@@ -3,7 +3,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { TweetProvider } from "../context";
 import axios from "axios";
-import { appUrl } from "../../utils/urls";
 
 const Nav = () => {
   const [isActive, setIsActive] = useState(true);

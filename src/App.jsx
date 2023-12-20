@@ -20,7 +20,6 @@ import Nav from "./routes/AppFlow/Nav.jsx";
 import ErrorBountry from "./components/ErrorBountry.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { appUrl } from "./utils/urls.js";
 import { UserProvider } from "./routes/context/UserContext.js";
 import { loader as usersLoader } from "./routes/context/useGetUser.js";
 import { loader as tweetLoader } from "./routes/context/tweetloader.js";
@@ -30,6 +29,9 @@ function App() {
   const [users, setUser] = useState();
   const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [isErrorUser, setIsErrorUser] = useState("");
+
+  const appUrl = import.meta.env.VITE_APP_API_URL;
+  console.log(appUrl, "freom app");
 
   const fetchUser = async () => {
     setIsLoadingUser(true);

@@ -2,7 +2,6 @@
 import { useTweet } from "../context/index";
 import { Link, useLoaderData } from "react-router-dom";
 import Tweet from "./Tweet";
-import Loader from "../../components/Loader";
 
 const Feed = () => {
   // const { tweets, isLoadingtweets } = useTweet();

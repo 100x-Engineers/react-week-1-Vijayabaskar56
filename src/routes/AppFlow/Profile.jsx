@@ -9,7 +9,6 @@ import { UserProvider } from "../context/UserContext";
 
 import axios from "axios";
 import { Suspense, useEffect, useState } from "react";
-import { appUrl } from "../../utils/urls";
 import { Outlet, useParams } from "react-router-dom";
 
 const Profile = () => {
