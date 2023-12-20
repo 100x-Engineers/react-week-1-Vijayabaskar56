@@ -1,22 +1,22 @@
 import Image from "../../../components/Image";
-import { Link, useMatch, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useMatch, useNavigate } from "react-router-dom";
 import Logo100X from "../../../assets/100x-frame.svg";
 import Profile from "../../../assets/group-default.svg";
 import HomeIcon from "../../../assets/home-default.svg";
 import plus from "../../../assets/content-add.svg";
 import Button from "../../../components/Button";
+import { useUser } from "../../context/UserContext";
 
 const Header = () => {
   const isHomeActive = useMatch("/");
   const navigator = useNavigate();
+  const users = useLoaderData();
+  const { id } = users;
   return (
     <header className="inline-flex flex-col justify-between p-5 border-r-2 border-gray-800">
       <div className="flex items-center justify-center gap-4 w-fit md:flex-col bg-neutral1000">
         <Image src={Logo100X} alt="100x-Logo" size="w-14" />
-        <Link
-          to="/foryou"
-          className={isHomeActive ? "bg-transparent/60" : null}
-        >
+        <Link to="/" className={isHomeActive ? "bg-transparent/60" : null}>
           <div className="inline-flex items-center justify-start h-12 gap-5 px-5 py-3">
             <Image src={HomeIcon} alt="home-icon" />
             {window.innerWidth > 1264 && (
@@ -27,7 +27,8 @@ const Header = () => {
           </div>
         </Link>
         <Link
-          to="/profile"
+          key={id}
+          to={`${id}`}
           className={isHomeActive ? "bg-transparent/60" : null}
         >
           <div className="inline-flex items-center justify-start h-12 gap-5 px-5 py-3 ">

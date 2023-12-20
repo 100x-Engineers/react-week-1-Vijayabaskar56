@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useDataContext } from "../routes/context/useFetchDataContext";
 import avatarImg from "../assets/user-avatar.svg";
 import AddBanner from "../assets//material-symbols-add-a-photo-outline.svg";
+import { useUser } from "../routes/context/UserContext";
+import axios from "axios";
+import { appUrl } from "../utils/urls";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -11,7 +14,7 @@ const supabase = createClient(
 
 function AvatarUpload({ url }) {
   //   const fileInput = useRef(null);
-  const { users } = useDataContext();
+  const { users } = useUser();
   const [imageUrl, setImageUrl] = useState(url);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -22,36 +25,40 @@ function AvatarUpload({ url }) {
     setShowOverlay(true);
     const { data, error } = await supabase.storage
       .from("avathars")
-      .upload(`avatar_${users.id}.png`, file);
+      .upload(`avatar_${users.id}.png`, file)
+      .then(() => {
+        getimage();
+      });
     setShowOverlay(false);
     if (error) {
       console.error(error);
       return;
-    } else {
-      //   getimage();
-      setImageUrl(
-        `https://doeoysbmfjhppaimcttr.supabase.co/storage/v1/object/public/avathars/avatar_${users.id}.png`
-      );
-    }
+    } 
   };
 
   const getimage = async () => {
-    const { publicURL, error } = await supabase.storage
+    const publicURL = await supabase.storage
       .from("avathars")
-      .getPublicUrl(`avathar/avatar_${users.id}.png`);
-    if (error) {
-      console.error(error);
-      return;
-    } else {
-      console.log(publicURL);
-      setImageUrl(publicURL);
-      setShowOverlay(false);
-    }
+      .getPublicUrl(`avatar_${users.id}.png`);
+    const {
+      data: { publicUrl },
+    } = publicURL;
+    setImageUrl(publicUrl);
+    setShowOverlay(false);
+    postImage(publicUrl);
   };
-  console.log(imageUrl, users.id, `avatar_${users.id}.png`);
+
+  const postImage = async (imageUrl) => {
+    await axios
+      .post(`${appUrl}/uploadProfile/${users.id}`, { imageUrl })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
-    <div className="relative w-24 h-24 overflow-hidden border-2 bg-gray-800 border-gray-300 rounded-full cursor-pointer">
+    <div className="relative w-24 h-24 overflow-hidden bg-gray-800 border-2 border-gray-300 rounded-full cursor-pointer">
       {imageUrl ? (
         <img src={imageUrl} className="object-cover w-full h-full" />
       ) : (
@@ -59,7 +66,7 @@ function AvatarUpload({ url }) {
           <image
             src={AddBanner}
             alt="add-icon"
-            className="p-2 rounded-full cursor-pointer z-10 bg-neutral900shade"
+            className="z-10 p-2 rounded-full cursor-pointer bg-neutral900shade"
           />
         </div>
       )}

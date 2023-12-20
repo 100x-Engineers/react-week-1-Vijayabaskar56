@@ -16,25 +16,25 @@ const Nav = () => {
     "pb-3 text-base font-medium text-center whitespace-nowrap font-px-secondary";
   const seleted = "text-neutral-500 border-twitterBlue border-b-2";
 
-  const fetchTweets = async () => {
-    setIsLoadingtweets(true);
-    try {
-      const response = await axios.get(`${appUrl}/feed`);
-      if (response && response.status >= 200 && response.status < 300) {
-        console.log("from nav bar with tweet context", response.data);
-        setTweets(response.data);
-        setIsLoadingtweets(false);
-      } else {
-        setIsErrortweets(response);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchTweets = async () => {
+  //   setIsLoadingtweets(true);
+  //   try {
+  //     const response = await axios.get(`${appUrl}/feed`);
+  //     if (response && response.status >= 200 && response.status < 300) {
+  //       console.log("from nav bar with tweet context", response.data);
+  //       setTweets(response.data);
+  //       setIsLoadingtweets(false);
+  //     } else {
+  //       setIsErrortweets(response);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchTweets();
-  }, []);
+  // useEffect(() => {
+  //   fetchTweets();
+  // }, []);
 
   return (
     <>
@@ -46,7 +46,7 @@ const Nav = () => {
                 className={`${base} ${isActive ? seleted : null}`}
                 onClick={() => {
                   setIsActive(!isActive);
-                  navigate("foryou");
+                  navigate("");
                 }}
               >
                 For You
@@ -64,7 +64,7 @@ const Nav = () => {
           </nav>
         </div>
         <Suspense fallback={<Loader />}>
-          <TweetProvider
+          {/* <TweetProvider
             value={{
               tweets,
               isLoadingtweets,
@@ -74,9 +74,9 @@ const Nav = () => {
               setIsErrortweets,
               fetchTweets,
             }}
-          >
-            <Outlet />
-          </TweetProvider>
+          > */}
+          <Outlet />
+          {/* </TweetProvider> */}
         </Suspense>
       </div>
     </>

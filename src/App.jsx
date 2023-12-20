@@ -18,9 +18,46 @@ import Error from "./components/Error.jsx";
 import Home from "./routes/AppFlow/Home.jsx";
 import Nav from "./routes/AppFlow/Nav.jsx";
 import ErrorBountry from "./components/ErrorBountry.jsx";
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { appUrl } from "./utils/urls.js";
+import { UserProvider } from "./routes/context/UserContext.js";
+import { loader as usersLoader } from "./routes/context/useGetUser.js";
+import { loader as tweetLoader } from "./routes/context/tweetloader.js";
+import { loader as userTweetLoader } from "./routes/context/userTweetloader.js";
 
 function App() {
+  const [users, setUser] = useState();
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const [isErrorUser, setIsErrorUser] = useState("");
+
+  const fetchUser = async () => {
+    setIsLoadingUser(true);
+    try {
+      const response = await axios.get(`${appUrl}/users`);
+      if (response && response.status >= 200 && response.status < 300) {
+        const { user } = response.data;
+        setUser(user);
+        setIsLoadingUser(false);
+      } else {
+        setIsErrorUser(response.message);
+      }
+    } catch (error) {
+      // setIsErrorUser("Error Fecting User Data");
+    }
+  };
+
+  const loader = async () => {
+    const response = await axios.get(`${appUrl}/users`);
+    if (response && response.status >= 200 && response.status < 300) {
+      const { user } = response.data;
+      return user;
+    } else {
+      const { message } = response;
+      return message;
+    }
+  };
+
   const ProtectedRoutes = ({ children }) => {
     const { token } = useAuth();
     if (!token) {
@@ -30,11 +67,16 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   const route = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route
           path="/"
+          loader={loader}
           element={
             <ProtectedRoutes>
               <Home />
@@ -44,35 +86,45 @@ function App() {
         >
           <Route path="/" element={<Nav />} errorElement={<ErrorPage />}>
             <Route
-              path="foryou"
+              path=""
               element={<Feed />}
+              loader={tweetLoader}
               errorElement={<ErrorPage />}
             />
             <Route
               path="following"
+              loader={tweetLoader}
               element={<Feed />}
               errorElement={<ErrorPage />}
             />
           </Route>
           <Route
-            path="profile"
+            path=":id"
+            loader={usersLoader}
             element={<Profile />}
+            errorElement={<ErrorPage />}
+          >
+            <Route
+              path=""
+              loader={userTweetLoader}
+              element={<Feed />}
+              errorElement={<ErrorPage />}
+            ></Route>
+          </Route>
+          <Route
+            path="editprofile"
+            element={<EditProfile />}
+            errorElement={<ErrorPage />}
+          />
+          <Route
+            path="postTweet"
+            element={<PostTweet />}
             errorElement={<ErrorPage />}
           />
         </Route>
 
         {/* <Route path="home" element={<Home />} errorElement={<ErrorPage />}>
           </Route> */}
-        <Route
-          path="editprofile"
-          element={<EditProfile />}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="postTweet"
-          element={<PostTweet />}
-          errorElement={<ErrorPage />}
-        />
       </>
     )
   );
@@ -82,7 +134,18 @@ function App() {
       <>
         <ErrorBountry fallback={<Error />}>
           <AuthProvider>
-            <RouterProvider router={route} />
+            <UserProvider
+              value={{
+                users,
+                isLoadingUser,
+                isErrorUser,
+                setUser,
+                setIsErrorUser,
+                setIsLoadingUser,
+              }}
+            >
+              <RouterProvider router={route} />
+            </UserProvider>
           </AuthProvider>
         </ErrorBountry>
       </>

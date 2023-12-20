@@ -20,7 +20,9 @@ export const DatesToString = (date) => {
   } else {
     dateArr = date.split("-");
   }
-  const month = monthArray[dateArr[1]];
+  const monthInNumber = Number(dateArr[1]) - 1;
+
+  const month = monthArray[monthInNumber];
 
   return `Joined ${month} ${dateArr[0]}`;
 };

@@ -15,6 +15,8 @@ import Avatar from "./componenets/Avatar";
 // Other imports
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+// import { useGetUsers } from "../context/useGetUser";
 
 const Tweet = ({
   displayName,
@@ -24,9 +26,11 @@ const Tweet = ({
   likeCount,
   retweetCount,
   tweetId,
+  proilePicUrl,
+  userId,
 }) => {
   const [isActive, setISActive] = useState(false);
-
+  // const { users, isErrorUser } = useGetUsers();
   const copyToClipboard = async () => {
     const location = window.location.href;
     try {
@@ -53,12 +57,15 @@ const Tweet = ({
     <>
       <main>
         <section className="inline-flex items-start justify-start w-full h-full gap-4 px-4 py-2 border-b border-r border-neutral700">
-          <Avatar Avatar={userAvatar} />
+          <Link key={userId} to={userId}>
+            <Avatar Avatar={proilePicUrl} />
+          </Link>
           <div className="inline-flex flex-col items-start justify-start gap-1 w-fit grow shrink basis-0">
             <TweetHeader
               // tweetId={tweetId}
+              userId={userId}
               name={displayName}
-              userId={userName}
+              userName={userName}
               time={postedAt}
               tweet={content}
             />
