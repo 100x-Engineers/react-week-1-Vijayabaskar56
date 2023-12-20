@@ -49,7 +49,6 @@ function App() {
       const response = await axios.get(`${appUrl}/users`);
       if (response && response.status >= 200 && response.status < 300) {
         const { user } = response.data;
-        console.log(user, "user");
         setUser(user);
         setIsLoadingUser(false);
       } else {
@@ -80,7 +79,6 @@ function App() {
 
   const ProtectedRoutes = ({ children }) => {
     const { token } = useAuth();
-    console.log(token, "token");
     if (!token) {
       return <WelcomePage />;
     } else {

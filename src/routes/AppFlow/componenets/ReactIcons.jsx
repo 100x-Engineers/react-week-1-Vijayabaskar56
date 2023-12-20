@@ -7,7 +7,6 @@ import { useLoaderData } from "react-router-dom";
 function ReactIcons({ activImg, inactiveImg, name, value, tweetId }) {
   const [isActive, setISActive] = useState(false);
   const { users } = useUser();
-  console.log(users);
   const likeCountRef = useRef(!value ? 0 : value);
   const clickhandler = async (e) => {
     const appUrl = import.meta.env.VITE_APP_API_URL;
