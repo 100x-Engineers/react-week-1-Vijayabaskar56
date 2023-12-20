@@ -1,8 +1,9 @@
-const URL = "http://localhost:3000/";
+const URL = import.meta.env.VITE_APP_API_URL;
+console.log(URL);
 
 export const AuthService = async (email, password) => {
   try {
-    const response = await fetch(`${URL}login`, {
+    const response = await fetch(`${URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

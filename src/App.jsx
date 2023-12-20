@@ -11,14 +11,14 @@ import Feed from "./routes/AppFlow/Feed.jsx";
 import Profile from "./routes/AppFlow/Profile";
 import EditProfile from "./routes/AppFlow/EditProfile";
 import PostTweet from "./routes/AppFlow/PostTweet";
-import { useAuth, AuthProvider } from "./routes/context/Auth.jsx";
+import { useAuth, AuthProvider } from "./routes/context/Auth.js";
 import ErrorPage from "./routes/ErrorPage.jsx";
 import { createPortal } from "react-dom";
 import Error from "./components/Error.jsx";
 import Home from "./routes/AppFlow/Home.jsx";
 import Nav from "./routes/AppFlow/Nav.jsx";
 import ErrorBountry from "./components/ErrorBountry.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { UserProvider } from "./routes/context/UserContext.js";
 import { loader as usersLoader } from "./routes/context/useGetUser.js";
@@ -26,12 +26,22 @@ import { loader as tweetLoader } from "./routes/context/tweetloader.js";
 import { loader as userTweetLoader } from "./routes/context/userTweetloader.js";
 
 function App() {
+  const [token, setingToken] = useState(localStorage.getItem("Token"));
+  // Function to set the authentication token
+  const setToken = (newToken) => {
+    setingToken(newToken);
+  };
+
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      localStorage.setItem("Token", token);
+    }
+  }, [token]);
+
   const [users, setUser] = useState();
   const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [isErrorUser, setIsErrorUser] = useState("");
-
-  const appUrl = import.meta.env.VITE_APP_API_URL;
-  console.log(appUrl, "freom app");
 
   const fetchUser = async () => {
     setIsLoadingUser(true);
@@ -39,6 +49,7 @@ function App() {
       const response = await axios.get(`${appUrl}/users`);
       if (response && response.status >= 200 && response.status < 300) {
         const { user } = response.data;
+        console.log(user, "user");
         setUser(user);
         setIsLoadingUser(false);
       } else {
@@ -49,6 +60,13 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    if (token) {
+      fetchUser();
+    }
+  }, [token]);
+
+  const appUrl = import.meta.env.VITE_APP_API_URL;
   const loader = async () => {
     const response = await axios.get(`${appUrl}/users`);
     if (response && response.status >= 200 && response.status < 300) {
@@ -62,6 +80,7 @@ function App() {
 
   const ProtectedRoutes = ({ children }) => {
     const { token } = useAuth();
+    console.log(token, "token");
     if (!token) {
       return <WelcomePage />;
     } else {
@@ -69,16 +88,12 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
   const route = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route
           path="/"
-          loader={loader}
+          // loader={loader}
           element={
             <ProtectedRoutes>
               <Home />
@@ -135,7 +150,7 @@ function App() {
     return (
       <>
         <ErrorBountry fallback={<Error />}>
-          <AuthProvider>
+          <AuthProvider value={{ token, setToken }}>
             <UserProvider
               value={{
                 users,
