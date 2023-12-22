@@ -7,8 +7,11 @@ import HomeIcon from "../../assets/home-default.svg";
 import Loader from "../../components/Loader";
 import TrandingPage from "./TrendingPage";
 import Header from "./componenets/Header";
+import Logout from "./componenets/Logout";
+import { useUser } from "../context/UserContext";
 const Home = () => {
   const isHomeActive = useMatch("/");
+  const { users } = useUser();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -28,7 +31,11 @@ const Home = () => {
         {windowWidth < 760 && (
           <header className="flex justify-start px-4 py-3 border-b-2 border-solid bg-neutral1000 text-neutral50 border-b-neutral700">
             <Link to="/profile">
-              <img src="../../public/images/user-avatar.svg" alt="user-icon" />
+              <img
+                src={users.profilePicUrl}
+                className="rounded-full w-12 h-12"
+                alt="user-icon"
+              />
             </Link>
             <Image src={Logo100X} alt="100x-Logo" size="mx-auto w-14" />
           </header>

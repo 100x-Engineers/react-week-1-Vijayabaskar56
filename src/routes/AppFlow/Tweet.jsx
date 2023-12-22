@@ -6,7 +6,6 @@ import shareIcon from "../../assets/share-sv.svg";
 import heartActiveIcon from "../../assets/heart-sv-active.svg";
 import retweetActiveIcon from "../../assets/retweet-sv-active.svg";
 import shareActiveIcon from "../../assets/share-sv-active.svg";
-import userAvatar from "../../assets/user-avatar.svg";
 // Component imports
 import ReactIcons from "./componenets/ReactIcons";
 import TweetHeader from "./componenets/TweetHeader";
@@ -124,4 +123,6 @@ Tweet.propTypes = {
   likeCount: PropTypes.number,
   tweetId: PropTypes.number,
   retweetCount: PropTypes.number,
+  proilePicUrl: PropTypes.string,
+  userId: PropTypes.number,
 };

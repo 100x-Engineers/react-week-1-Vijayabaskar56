@@ -1,6 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 import React, { useEffect, useState } from "react";
-import { useDataContext } from "../routes/context/useFetchDataContext";
 import avatarImg from "../assets/user-avatar.svg";
 import AddBanner from "../assets//material-symbols-add-a-photo-outline.svg";
 import { useUser } from "../routes/context/UserContext";

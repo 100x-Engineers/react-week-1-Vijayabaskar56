@@ -6,6 +6,7 @@ import HomeIcon from "../../../assets/home-default.svg";
 import plus from "../../../assets/content-add.svg";
 import Button from "../../../components/Button";
 import { useUser } from "../../context/UserContext";
+import Logout from "./Logout";
 
 const Header = () => {
   const isHomeActive = useMatch("/");
@@ -61,6 +62,13 @@ const Header = () => {
         </div>
       </div>
       {/* <ProileHandler /> */}
+      <div>
+        <Logout
+          displayname={users.displayName}
+          profilePicUrl={users.profilePicUrl}
+          username={users.username}
+        />
+      </div>
     </header>
   );
 };
