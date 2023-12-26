@@ -33,7 +33,7 @@ const Home = () => {
             <Link to="/profile">
               <img
                 src={users.profilePicUrl}
-                className="rounded-full w-12 h-12"
+                className="w-12 h-12 rounded-full"
                 alt="user-icon"
               />
             </Link>
@@ -41,7 +41,7 @@ const Home = () => {
           </header>
         )}
 
-        <div className="flex w-screen h-screen re bg-neutral1000 text-neutral50 overflow-hidden scroll-smooth hide-scrollbar ">
+        <div className="flex w-screen h-screen overflow-hidden re bg-neutral1000 text-neutral50 scroll-smooth hide-scrollbar ">
           {windowWidth > 760 && <Header />}
           <section className="flex w-full overflow-scroll scroll-m-0 scroll-smooth">
             <div className="w-full border-r-2 border-gray-800 md:max-w-xl">

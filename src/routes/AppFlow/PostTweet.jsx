@@ -46,12 +46,13 @@ const PostTweet = () => {
             </Button>
           </header>
           <div className="flex items-center">
-            <section className="relative inline-flex flex-row items-center justify-center gap-3 px-4 py-2">
-              <div className="flex h-aut0 h-10 min-h-fit max-h-[10rem]">
+            <section className="relative inline-flex flex-row items-start justify-center gap-3 px-4 py-2">
+              <div className="flex h-aut0 h-10 min-h-[2rem] max-h-32">
+                <div className="absolute left-0 z-10 inline-flex min-h-full translate-x-8 border-2 border-gray-500/50"></div>
                 <Image
                   src={UserProfile}
                   alt="user-avatar"
-                  className="relative top-0 h-fit mg-auto "
+                  className="relative top-0 z-20 h-fit mg-auto"
                 />
               </div>
               <div className="">

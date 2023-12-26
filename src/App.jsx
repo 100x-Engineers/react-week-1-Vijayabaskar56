@@ -24,6 +24,7 @@ import { UserProvider } from "./routes/context/UserContext.js";
 import { loader as usersLoader } from "./routes/context/useGetUser.js";
 import { loader as tweetLoader } from "./routes/context/tweetloader.js";
 import { loader as userTweetLoader } from "./routes/context/userTweetloader.js";
+import PostTweetModal from "./routes/AppFlow/componenets/PostTweetModal.jsx";
 
 function App() {
   const [token, setingToken] = useState(localStorage.getItem("Token"));
@@ -134,6 +135,11 @@ function App() {
           <Route
             path="postTweet"
             element={<PostTweet />}
+            errorElement={<ErrorPage />}
+          />
+          <Route
+            path="posting"
+            element={<PostTweetModal />}
             errorElement={<ErrorPage />}
           />
         </Route>
